@@ -38,27 +38,34 @@ function App() {
   const projects = [
     {
       id: 1,
+      title: ["Curcuma"],
+      date: "Juil 2025 - Dec 2025",
+      info: 'Centralizes your talent, optimizes your matching, and accelerates your placements.',
+      stack: ['React', 'Bun', 'Sqlite', 'Tailwind', 'Daisy UI', 'Github']
+    },
+    {
+      id: 2,
       title: ["FASST"],
       date: "Oct 2024 - Mars 2025",
       info: 'Sales path and Dashboard for AMUNDI distributors',
       stack: ['React', 'Node', 'GraphQL', 'Ramda', 'Tailwind', 'Radix-UI', 'GitLab']
     },
     {
-      id: 2,
+      id: 3,
       title: ["PATHFINDER"],
       date: "Jun - Nov 2024",
       info: 'Graph Visualization Tool for BNP Paribas',
       stack: ['React', 'React Router', 'D3.JS', 'TypeScript', 'Vite', 'Zustand', 'GitLab']
     },
     {
-      id: 3,
+      id: 4,
       title: ["LOAD AO"],
       date: "Oct 2023 - Fev 2025",
       info: 'Tool Managment for Sogeti',
       stack: ['React', 'TypeScript', 'MUI', 'TanStack', 'Puppeteer', 'Node', 'AzureDevOps']
     },
     {
-      id: 4,
+      id: 5,
       title: ["ABLA"],
       date: " Mar 2023 - Dec 2024",
       info: 'AI transcription for repository Design',
