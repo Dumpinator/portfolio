@@ -277,52 +277,57 @@ function App() {
             </div>
           </div>
 
-          <div className="text-base mb-8 opacity-75 max-w-md mx-auto sm:mx-0 text-left">
-            <p className="mb-4">
-              <DecryptedText
-                text="Fullstack JS developer with 5+ years of experience, combining technical expertise and creative approach to design performant and intuitive interfaces:"
-                duration={2000}
-                direction="left-to-right"
-              />
-            </p>
-            <ul className="list-disc pl-5 mb-4 space-y-2">
-              <li>
-                <DecryptedText
-                  text="Deep mastery of React ecosystems, particularly in state management (Zustand) and data flow optimization (GraphQL)"
-                  duration={2000}
-                  direction="left-to-right"
-                />
-              </li>
-              <li>
-                <DecryptedText
-                  text="Proficiency in data visualization (D3.JS, Chart.JS), transforming complex information into readable interfaces"
-                  duration={2000}
-                  direction="left-to-right"
-                />
-              </li>
-              <li>
-                <DecryptedText
-                  text="UI/UX expertise with modern frameworks (Tailwind, Radix-UI, Chakra-UI, MUI) ensuring accessibility and polished aesthetics"
-                  duration={2000}
-                  direction="left-to-right"
-                />
-              </li>
-              <li>
-                <DecryptedText
-                  text="Solid fullstack skills (Node, TypeScript) complemented by automation tools (Puppeteer) and continuous integration"
-                  duration={2000}
-                  direction="left-to-right"
-                />
-              </li>
-            </ul>
-            <p>
-              <DecryptedText
-                text="I strive to create responsive applications that combine technical performance with intuitive user experience."
-                duration={2000}
-                direction="left-to-right"
-              />
-            </p>
-          </div>
+<div className="text-base mb-8 opacity-75 max-w-md mx-auto sm:mx-0 text-left">
+  <p className="mb-4">
+    <DecryptedText
+      text="Full-stack JavaScript developer with 5+ years of experience building modern web applications and SaaS platforms using React, Node.js and TypeScript."
+      duration={2000}
+      direction="left-to-right"
+    />
+  </p>
+
+  <ul className="list-disc pl-5 mb-4 space-y-2">
+    <li>
+      <DecryptedText
+        text="Strong expertise in the React ecosystem, building scalable front-end architectures with modern state management and optimized data flows."
+        duration={2000}
+        direction="left-to-right"
+      />
+    </li>
+
+    <li>
+      <DecryptedText
+        text="Backend development with Node.js and modern runtimes like Bun, designing clean APIs and performant services."
+        duration={2000}
+        direction="left-to-right"
+      />
+    </li>
+
+    <li>
+      <DecryptedText
+        text="Experience building SaaS products using PostgreSQL and SQLite with a focus on reliability and performance."
+        duration={2000}
+        direction="left-to-right"
+      />
+    </li>
+
+    <li>
+      <DecryptedText
+        text="Modern UI development with Tailwind, Radix UI and component-driven design systems."
+        duration={2000}
+        direction="left-to-right"
+      />
+    </li>
+  </ul>
+
+  <p>
+    <DecryptedText
+      text="I enjoy building fast, maintainable systems from frontend interfaces to backend APIs and production deployments."
+      duration={2000}
+      direction="left-to-right"
+    />
+  </p>
+</div>
 
           {/* Stats avec flex-wrap */}
           <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-8 w-fit space-y-4 sm:space-y-8">
