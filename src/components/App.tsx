@@ -210,7 +210,7 @@ function App() {
   };
 
   return (
-    <div className={`flex flex-col md:flex-row min-h-[100vh] w-full overflow-hidden  ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+    <div className={`flex flex-col md:flex-row min-h-[100vh] w-full ${darkMode ? 'dark-theme' : 'light-theme'}`}>
       {/* Section gauche - Présentation */}
       <div className="w-full md:w-1/2 min-h-screen flex items-center justify-center overflow-hidden">
         <div className="flex flex-col w-full max-w-md px-4 sm:px-6 py-8 space-y-6">
