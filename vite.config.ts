@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/',
+  base: '/portfolio/',
   publicDir: 'public',
   build: {
     assetsDir: ''
