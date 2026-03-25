@@ -151,7 +151,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
     <div
       ref={projectRef}
       data-id={project.id}
-      className={`project-item w-fit mx-auto ${isMobile ? 'mb-8' : 'mb-16'} cursor-pointer snap-center transition-all duration-500
+      className={`project-item w-full max-w-xs mx-auto ${isMobile ? 'mb-8' : 'mb-16'} cursor-pointer snap-center transition-all duration-500
         ${(hovered && isActive && !isMobile) ? '-translate-x-2.5' : ''}
         ${isActive ? `${isMobile ? 'scale-100' : 'scale-105'}` : `${isMobile ? '' : 'scale-95'}`}
       `}
@@ -168,7 +168,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
         {project.date}
       </p>
       <div className="!ml-1 !mt-2 text-sm">
-        <ul className='flex flex-wrap gap-1 max-w-2xs'>
+        <ul className='flex flex-wrap gap-1 w-full'>
           {project.stack.map((tag, index) => (
             <li key={index}>
               <Badge className={`text-${darkMode ? 'blue' : 'yellow'}-300/90`} darkMode={darkMode} isActive={isActive}>{tag}</Badge>

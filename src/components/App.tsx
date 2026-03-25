@@ -389,21 +389,21 @@ function App() {
           <div className="text-base mb-6 opacity-75 max-w-md mx-auto sm:mx-0 text-left space-y-3">
             <p>
               <DecryptedText
-                text="Full-stack developer building modern web applications with React, Node.js and TypeScript."
+                text="Full-stack developer working with React, Node.js and TypeScript."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="I focus on creating fast, reliable and maintainable systems, from frontend interfaces to backend APIs and production deployments."
+                text="I build SaaS products, APIs and modern interfaces with a focus on performance, clarity and maintainability."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="Recent work includes SaaS development, Bun-based backends, PostgreSQL / SQLite databases and optimized deployments with Nginx."
+                text="I enjoy keeping up with the ecosystem, whether that means working with Bun.js, refining database design, or improving deployment setups with Nginx."
                 duration={2000}
                 direction="left-to-right"
               />
