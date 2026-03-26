@@ -92,6 +92,7 @@ function App() {
       date: "Juil 2025 - Dec 2025",
       info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
       stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
+      link: "https://beta.curcuma.ovh/",
     },
     {
       id: 2,
@@ -107,6 +108,7 @@ function App() {
         "Radix-UI",
         "GitLab",
       ],
+      link: "https://fasst.io/",
     },
     {
       id: 3,
@@ -122,6 +124,7 @@ function App() {
         "Zustand",
         "GitLab",
       ],
+      link: "",
     },
     {
       id: 4,
@@ -137,13 +140,15 @@ function App() {
         "Node",
         "AzureDevOps",
       ],
+      link: "",
     },
     {
       id: 5,
       title: ["ABLA"],
       date: " Mar 2023 - Dec 2024",
-      info: "AI transcription for repository Design",
+      info: "AI transcription for UX Repository",
       stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
+      link: "",
     },
   ];
 
@@ -461,7 +466,6 @@ function App() {
                 darkMode={darkMode}
                 isActive={project.id === activeProjectId}
                 onClick={() => setActiveProjectId(Number(project.id))}
-                scrollToProject={scrollToProject}
               />
             ))}
           </div>
@@ -499,7 +503,6 @@ function App() {
                   darkMode={darkMode}
                   isActive={project.id === activeProjectId}
                   onClick={() => scrollToProject(Number(project.id))}
-                  scrollToProject={scrollToProject}
                 />
               ))}
 

@@ -8,6 +8,7 @@ type Project = {
   date: string;
   stack: string[];
   info: string;
+  link?: string;
 }
 
 type ProjectProps = {
@@ -15,17 +16,12 @@ type ProjectProps = {
   darkMode?: boolean;
   isActive: boolean;
   onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
-  scrollToProject: (projectId: number) => void;
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
   showFocusIndicator?: boolean;
   className?: string;
 }
 
-const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onClick, scrollToProject }) => {
-  const [hovered, setHovered] = useState<boolean>(false);
-  const [showDetails, setShowDetails] = useState<boolean>(false);
-  const timerRef = useRef<number | null>(null);
-  const autoScrollTimerRef = useRef<number | null>(null);
+const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onClick }) => {
   const [isMobile, setIsMobile] = useState(false);
   const projectRef = useRef<HTMLDivElement>(null);
   
@@ -46,11 +42,10 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
   // Animation GSAP initiale 
   useEffect(() => {
     if (projectRef.current) {
-      // Animation initiale - seul le premier projet est pleinement visible
       gsap.set(projectRef.current, { 
         opacity: project.id === 1 ? 1 : 0.15,
         scale: project.id === 1 ? 1 : 0.95,
-        clearProps: "transform" // Permet à nos classes CSS de définir la transformation
+        clearProps: "transform"
       });
     }
   }, [project.id]);
@@ -65,7 +60,6 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
           ease: "power2.out"
         });
       } else {
-        // Si on est sur mobile, on garde toujours une certaine visibilité
         gsap.to(projectRef.current, {
           opacity: isMobile ? 0.5 : 0.15,
           duration: 0.5,
@@ -75,11 +69,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
     }
   }, [isActive, isMobile]);
 
-  // Gérer le hover et les timers
   const handleMouseEnter = () => {
-    setHovered(true);
-    
-    // Animation au survol
     if (projectRef.current && !isActive) {
       gsap.to(projectRef.current, {
         opacity: 0.8,
@@ -87,30 +77,9 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
         ease: "power1.out"
       });
     }
-    
-    // Sur mobile, ne pas utiliser de délais
-    if (isMobile) {
-      if (isActive) {
-        setShowDetails(true);
-      }
-      return;
-    }
-    
-    if (isActive) {
-      timerRef.current = window.setTimeout(() => {
-        setShowDetails(true);
-      }, 300);
-    } else {
-      autoScrollTimerRef.current = window.setTimeout(() => {
-        scrollToProject(Number(project?.id));
-      }, 800);
-    }
   };
 
   const handleMouseLeave = () => {
-    setHovered(false);
-    
-    // Animation quand on quitte le survol
     if (projectRef.current && !isActive) {
       gsap.to(projectRef.current, {
         opacity: isMobile ? 0.5 : 0.15,
@@ -118,30 +87,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
         ease: "power1.out"
       });
     }
-    
-    // Sur mobile, garder les détails visibles pour le projet actif
-    if (isMobile && isActive) {
-      return;
-    }
-    
-    setShowDetails(false);
-    
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    if (autoScrollTimerRef.current) {
-      clearTimeout(autoScrollTimerRef.current);
-    }
   };
-
-  // Montrer les détails automatiquement pour le projet actif en mode mobile
-  useEffect(() => {
-    if (isMobile && isActive) {
-      setShowDetails(true);
-    } else if (isMobile && !isActive) {
-      setShowDetails(false);
-    }
-  }, [isMobile, isActive]);
 
   if (!project) {
     return null;
@@ -152,12 +98,17 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
       ref={projectRef}
       data-id={project.id}
       className={`project-item w-full max-w-xs mx-auto ${isMobile ? 'mb-8' : 'mb-16'} cursor-pointer snap-center transition-all duration-500
-        ${(hovered && isActive && !isMobile) ? '-translate-x-2.5' : ''}
         ${isActive ? `${isMobile ? 'scale-100' : 'scale-105'}` : `${isMobile ? '' : 'scale-95'}`}
       `}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={onClick}
+      onClick={(e) => {
+        if (isActive && project.link) {
+          window.open(project.link, '_blank', 'noopener,noreferrer');
+        } else {
+          onClick(e);
+        }
+      }}
     >
       <div className="mb-2">
         {project.title.map((line, index) => (
@@ -178,7 +129,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
       </div>
       <div
         className={`overflow-hidden transition-all duration-300 ease-out
-          ${(showDetails && isActive) || (isMobile && isActive) ? 'max-h-32 opacity-100 mt-2' : 'max-h-0 opacity-0'}
+          ${isActive ? 'max-h-32 opacity-100 mt-2' : 'max-h-0 opacity-0'}
         `}
       >
         <p className="project-info !ml-1 text-sm mb-2">
