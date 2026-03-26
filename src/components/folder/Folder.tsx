@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Badge from '../badge/Badge';
 import gsap from 'gsap';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 type Project = {
   id: string | number;
@@ -22,22 +23,8 @@ type ProjectProps = {
 }
 
 const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onClick }) => {
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const projectRef = useRef<HTMLDivElement>(null);
-  
-  // Détecter si c'est un écran mobile
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkIfMobile);
-    };
-  }, []);
 
   // Animation GSAP initiale 
   useEffect(() => {
@@ -122,7 +109,7 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
         <ul className='flex flex-wrap gap-1 w-full'>
           {project.stack.map((tag, index) => (
             <li key={index}>
-              <Badge className={`text-${darkMode ? 'blue' : 'yellow'}-300/90`} darkMode={darkMode} isActive={isActive}>{tag}</Badge>
+              <Badge darkMode={darkMode}>{tag}</Badge>
             </li>
           ))}
         </ul>

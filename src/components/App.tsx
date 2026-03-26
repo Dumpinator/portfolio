@@ -1,4 +1,11 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 function useCountUp(target: number, duration = 2000) {
   const [value, setValue] = useState(0);
@@ -27,7 +34,7 @@ function useCountUp(target: number, duration = 2000) {
           animate();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -43,16 +50,30 @@ import DecryptedText from "./animations/DecryptedText.tsx";
 import profilImage from "/profil.jpg";
 import "./App.css";
 import SocialIcons from "./socialIcons/SocialIcons.tsx";
+import { useIsMobile } from "../hooks/useIsMobile";
 const ParticleBackground = lazy(
   () => import("./particulesBackground/ParticleBackground.tsx"),
 );
 
-function StatCounter({ target, suffix, label, darkMode }: { target: number; suffix: string; label: string; darkMode: boolean }) {
+function StatCounter({
+  target,
+  suffix,
+  label,
+  darkMode,
+}: {
+  target: number;
+  suffix: string;
+  label: string;
+  darkMode: boolean;
+}) {
   const { value, ref } = useCountUp(target, 1800);
   return (
     <div className="flex-1 text-center sm:text-left">
-      <p className={`text-4xl font-bold ${darkMode ? "text-green-300/80" : "text-blue-400/50"}`}>
-        <span ref={ref}>{value}</span>{suffix}
+      <p
+        className={`text-4xl font-bold ${darkMode ? "text-green-300/80" : "text-blue-400/50"}`}
+      >
+        <span ref={ref}>{value}</span>
+        {suffix}
       </p>
       <p className="text-sm opacity-75">{label}</p>
     </div>
@@ -66,24 +87,8 @@ function App() {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const focusIndicatorRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const initialScrollComplete = useRef(false);
-
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    // Vérifier immédiatement
-    checkIfMobile();
-
-    // Ajouter un écouteur pour vérifier lors du redimensionnement
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
-  }, []);
 
   const projects = [
     {
@@ -166,10 +171,6 @@ function App() {
 
       let closestId: number | null = null;
       let closestDistance = Infinity;
-      const projectsVisibility: Record<
-        number,
-        { distance: number; element: Element }
-      > = {};
 
       const projectElements =
         scrollContainerRef.current.querySelectorAll(".project-item");
@@ -179,8 +180,6 @@ function App() {
         const distance = Math.abs(rect.top + rect.height / 2 - containerCenter);
         const id = parseInt((element as HTMLElement).dataset.id || "0");
 
-        projectsVisibility[id] = { distance, element };
-
         if (distance < closestDistance) {
           closestDistance = distance;
           closestId = id;
@@ -188,27 +187,6 @@ function App() {
       });
 
       setActiveProjectId(closestId);
-
-      Object.entries(projectsVisibility).forEach(([id, { element }]) => {
-        const numId = parseInt(id);
-
-        if (numId === closestId) {
-          // Projet actif - 100% d'opacité
-          (element as HTMLElement).style.opacity = "1";
-          (element as HTMLElement).style.pointerEvents = "auto";
-        } else if (
-          closestId !== null &&
-          (numId === closestId - 1 || numId === closestId + 1)
-        ) {
-          // Projets adjacents - 50% d'opacité
-          (element as HTMLElement).style.opacity = "0.5";
-          (element as HTMLElement).style.pointerEvents = "auto";
-        } else {
-          // Tous les autres projets - invisibles et non interactifs
-          (element as HTMLElement).style.opacity = "0";
-          (element as HTMLElement).style.pointerEvents = "none";
-        }
-      });
     };
 
     const scrollContainer = scrollContainerRef.current;
@@ -419,27 +397,59 @@ function App() {
           <div className="mb-6 max-w-md mx-auto sm:mx-0">
             <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm opacity-75">
               <div>
-                <p className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}>Frontend</p>
+                <p
+                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                >
+                  Frontend
+                </p>
                 <p>
-                  <DecryptedText text="React · TypeScript · Tailwind" duration={2500} direction="left-to-right" />
+                  <DecryptedText
+                    text="React · TypeScript · Tailwind"
+                    duration={2500}
+                    direction="left-to-right"
+                  />
                 </p>
               </div>
               <div>
-                <p className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}>Backend</p>
+                <p
+                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                >
+                  Backend
+                </p>
                 <p>
-                  <DecryptedText text="Node.js · Bun · REST APIs" duration={2500} direction="left-to-right" />
+                  <DecryptedText
+                    text="Node.js · Bun · REST APIs"
+                    duration={2500}
+                    direction="left-to-right"
+                  />
                 </p>
               </div>
               <div>
-                <p className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}>Databases</p>
+                <p
+                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                >
+                  Databases
+                </p>
                 <p>
-                  <DecryptedText text="PostgreSQL · SQLite" duration={2500} direction="left-to-right" />
+                  <DecryptedText
+                    text="PostgreSQL · SQLite"
+                    duration={2500}
+                    direction="left-to-right"
+                  />
                 </p>
               </div>
               <div>
-                <p className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}>Infrastructure</p>
+                <p
+                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                >
+                  Infrastructure
+                </p>
                 <p>
-                  <DecryptedText text="Nginx · Linux · Git / CI" duration={2500} direction="left-to-right" />
+                  <DecryptedText
+                    text="Nginx · Linux · Git / CI"
+                    duration={2500}
+                    direction="left-to-right"
+                  />
                 </p>
               </div>
             </div>
@@ -447,9 +457,24 @@ function App() {
 
           {/* Stats avec flex-wrap */}
           <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-8 w-fit space-y-4 sm:space-y-8">
-            <StatCounter target={5} suffix="+" label="Years of Experience" darkMode={darkMode} />
-            <StatCounter target={12} suffix="+" label="Completed Projects" darkMode={darkMode} />
-            <StatCounter target={10} suffix="k+" label="Downed Coffees" darkMode={darkMode} />
+            <StatCounter
+              target={5}
+              suffix="+"
+              label="Years of Experience"
+              darkMode={darkMode}
+            />
+            <StatCounter
+              target={12}
+              suffix="+"
+              label="Completed Projects"
+              darkMode={darkMode}
+            />
+            <StatCounter
+              target={10}
+              suffix="k+"
+              label="Downed Coffees"
+              darkMode={darkMode}
+            />
           </div>
         </div>
       </div>

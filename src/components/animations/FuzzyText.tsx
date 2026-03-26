@@ -28,8 +28,22 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
   useEffect(() => {
     let animationFrameId: number;
     let isCancelled = false;
+    let isVisible = true;
+    let runFn: (() => void) | null = null;
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Pause rAF when canvas is off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && runFn && !isCancelled) {
+          animationFrameId = window.requestAnimationFrame(runFn);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
 
     const init = async () => {
       if (document.fonts?.ready) {
@@ -143,9 +157,12 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
             1
           );
         }
-        animationFrameId = window.requestAnimationFrame(run);
+        if (isVisible) {
+          animationFrameId = window.requestAnimationFrame(run);
+        }
       };
 
+      runFn = run;
       run();
 
       const isInsideTextArea = (x: number, y: number) =>
@@ -207,6 +224,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     return () => {
       isCancelled = true;
       window.cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       if (canvas && canvas.cleanupFuzzyText) {
         canvas.cleanupFuzzyText();
       }

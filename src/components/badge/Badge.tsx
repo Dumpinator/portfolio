@@ -7,21 +7,25 @@ type BadgeProps = {
   isActive?: boolean;
 }
 
+const colorMap = {
+  blue: {
+    bg: 'bg-blue-950/60',
+    text: 'text-blue-300/70',
+    border: 'before:border-blue-400/20 hover:before:border-blue-400/40',
+  },
+  yellow: {
+    bg: 'bg-yellow-100/60',
+    text: 'text-yellow-600/70',
+    border: 'before:border-yellow-400/20 hover:before:border-yellow-400/40',
+  },
+} as const;
+
 const Badge: React.FC<BadgeProps> = ({
   children,
-  className = '',
   darkMode = true,
 }) => {
 
-  const textColorMatch = className.match(/text-(\w+)-(\d+)/);
-  const color = textColorMatch && textColorMatch[1]
-  const textColorClass = textColorMatch && textColorMatch[0]
-    ? textColorMatch[0]
-    : (darkMode ? 'text-white/90' : 'text-black/90');
-
-  const neonColor = textColorMatch
-    ? `before:border-${textColorMatch[1]}-${textColorMatch[2]}/30 hover:before:border-${textColorMatch[1]}-${textColorMatch[2]}/50`
-    : 'before:border-blue-300/30 hover:before:border-blue-300/50';
+  const scheme = darkMode ? colorMap.blue : colorMap.yellow;
 
   return (
     <div
@@ -33,8 +37,8 @@ const Badge: React.FC<BadgeProps> = ({
         pb-0.5
         text-xs
         font-medium
-        rounded full
-        ${darkMode ? `bg-${color}-900` : `bg-${color}-200`}
+        rounded-full
+        ${scheme.bg}
         border
         border-transparent
         before:absolute
@@ -44,8 +48,8 @@ const Badge: React.FC<BadgeProps> = ({
         before:animate-border-pulse
         transition-all
         duration-300
-        ${textColorClass}
-        ${neonColor}
+        ${scheme.text}
+        ${scheme.border}
       `}
     >
       {children}

@@ -8,13 +8,20 @@ type ParticleBackgroundProps = {
 
 const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ darkMode }) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
     const initParticles = () => {
         if (!containerRef.current) return;
-        const particles = containerRef.current.querySelectorAll('.particle');
 
-        // Créer un timeline principal
+        // Kill previous timeline if any
+        if (timelineRef.current) {
+            timelineRef.current.kill();
+            timelineRef.current = null;
+        }
+
+        const particles = containerRef.current.querySelectorAll('.particle');
         const mainTl = gsap.timeline();
+        timelineRef.current = mainTl;
 
         // Masquer initialement toutes les particules
         gsap.set(particles, {
@@ -67,15 +74,22 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ darkMode }) => 
             initParticles();
         }, 300);
 
+        // Resize: recalculate particle positions
+        const handleResize = () => {
+            initParticles();
+        };
+        window.addEventListener('resize', handleResize);
+
         // Nettoyage
         return () => {
             clearTimeout(timer);
-            if (containerRef.current) {
-                const particles = containerRef.current.querySelectorAll('.particle');
-                gsap.killTweensOf(particles);
+            window.removeEventListener('resize', handleResize);
+            if (timelineRef.current) {
+                timelineRef.current.kill();
+                timelineRef.current = null;
             }
         };
-    }, [darkMode]);
+    }, []);
 
     return (
         <div ref={containerRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
