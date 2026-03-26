@@ -60,11 +60,13 @@ function StatCounter({
   suffix,
   label,
   darkMode,
+  decryptDelay = 0,
 }: {
   target: number;
   suffix: string;
   label: string;
   darkMode: boolean;
+  decryptDelay?: number;
 }) {
   const { value, ref } = useCountUp(target, 1800);
   return (
@@ -75,7 +77,14 @@ function StatCounter({
         <span ref={ref}>{value}</span>
         {suffix}
       </p>
-      <p className="text-sm opacity-75">{label}</p>
+      <p className="text-sm opacity-75">
+        <DecryptedText
+          text={label}
+          duration={1500}
+          delay={decryptDelay}
+          direction="left-to-right"
+        />
+      </p>
     </div>
   );
 }
@@ -296,10 +305,10 @@ function App() {
         <div className="flex flex-col w-full max-w-md px-4 sm:px-6 py-8 space-y-6">
           {/* Section photo + texte avec responsive */}
           <div className="flex flex-col items-center sm:flex-row sm:items-start mb-8">
-            <div className="flex flex-col items-center sm:items-start mr-2.5">
+            <div className="flex flex-col items-center sm:items-start mr-4">
               {/* Image de profil */}
               <div
-                className={`rounded-full overflow-hidden w-24 h-24 border-2 ${darkMode ? "border-green-300/80" : "border-blue-400/50"} shadow-lg flex-shrink-0 mb-4 sm:mb-0`}
+                className={`rounded-full overflow-hidden w-28 h-28 border-2 ${darkMode ? "border-green-300/80" : "border-blue-400/50"} shadow-lg flex-shrink-0 mb-4 sm:mb-0`}
               >
                 <img
                   src={profilImage}
@@ -311,15 +320,15 @@ function App() {
                   className="w-full h-full object-cover scale-x-[-1]"
                 />
               </div>
-              <div className="w-fit h-12 flex items-center justify-center">
+              <div className="w-full flex items-center justify-center mt-2">
                 <SocialIcons darkMode={darkMode} />
               </div>
             </div>
 
             <div className="text-center sm:text-left">
-              <h1 className="text-4xl font-bold tracking-tighter mb-2 pl-2">
+              <h1 className="text-3xl font-bold tracking-tighter mb-2 pl-2">
                 <SplitText
-                  text="JONATHAN"
+                  text="JONATHAN DE BOISVILLIERS"
                   delay={100}
                   animationFrom={{
                     opacity: 0,
@@ -333,24 +342,8 @@ function App() {
                     darkMode ? "text-green-300/80" : "text-blue-400/50"
                   }
                 />
-                <br />
-                <SplitText
-                  text="DE BOISVILLIERS"
-                  delay={200}
-                  animationFrom={{
-                    opacity: 0,
-                    transform: "translate3d(0,50px,0)",
-                  }}
-                  animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-                  easing={gsap.parseEase("easeOutCubic")}
-                  threshold={0.2}
-                  rootMargin="-50px"
-                  className={
-                    darkMode ? "text-green-300/80" : "text-blue-400/50"
-                  }
-                />
               </h1>
-              <div className="flex flex-wrap items-center">
+              <div className="flex flex-col items-center sm:items-start">
                 <FuzzyText
                   baseIntensity={0.1}
                   fontSize="2rem"
@@ -363,7 +356,7 @@ function App() {
                   fontSize="2rem"
                   color={darkMode ? "#fff" : "#aaa"}
                 >
-                  TypeScript Developer
+                  Typescript Developer
                 </FuzzyText>
               </div>
             </div>
@@ -462,18 +455,21 @@ function App() {
               suffix="+"
               label="Years of Experience"
               darkMode={darkMode}
+              decryptDelay={1500}
             />
             <StatCounter
               target={12}
               suffix="+"
               label="Completed Projects"
               darkMode={darkMode}
+              decryptDelay={1900}
             />
             <StatCounter
               target={10}
               suffix="k+"
               label="Downed Coffees"
               darkMode={darkMode}
+              decryptDelay={2300}
             />
           </div>
         </div>

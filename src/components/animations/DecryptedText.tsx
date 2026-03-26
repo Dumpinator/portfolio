@@ -11,6 +11,8 @@ type CustomSpanProps = React.ComponentProps<typeof animated.span> & {
 const DecryptedText: React.FC<CustomSpanProps & {
     text?: string;
     duration?: number;
+    delay?: number;
+    trigger?: number;
     characters?: string;
     className?: string;
     parentClassName?: string;
@@ -18,6 +20,8 @@ const DecryptedText: React.FC<CustomSpanProps & {
 }> = ({
     text = '',
     duration = 2000,
+    delay = 0,
+    trigger = 0,
     characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,./<>?',
     className = '',
     parentClassName = '',
@@ -32,6 +36,7 @@ const DecryptedText: React.FC<CustomSpanProps & {
             words.map(word => Array(word.length).fill(null))
         );
         const animationRef = useRef<number | null>(null);
+        const delayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
         const startTimeRef = useRef<number | null>(null);
         const [done, setDone] = useState(false);
 
@@ -58,7 +63,24 @@ const DecryptedText: React.FC<CustomSpanProps & {
             }
         }
 
+        // Run animation — reacts to `trigger` changes
         useEffect(() => {
+            // Reset state
+            setDone(false);
+            startTimeRef.current = null;
+
+            // Reset all spans to random chars immediately
+            for (let wIdx = 0; wIdx < words.length; wIdx++) {
+                const wordSpan = wordSpanRefs.current[wIdx];
+                if (wordSpan) wordSpan.className = 'word';
+                const charRefs = charSpanRefs.current[wIdx];
+                if (!charRefs) continue;
+                for (let cIdx = 0; cIdx < charRefs.length; cIdx++) {
+                    const span = charRefs[cIdx];
+                    if (span) span.textContent = getRandomChar();
+                }
+            }
+
             const decryptedFlags = Array(words.length).fill(false);
             const order = wordDecryptionOrder.current;
 
@@ -70,12 +92,10 @@ const DecryptedText: React.FC<CustomSpanProps & {
                 const totalWords = order.length;
                 const wordsToDecrypt = Math.floor(progress * totalWords * 1.2);
 
-                // Update decrypted flags
                 for (let i = 0; i < wordsToDecrypt && i < order.length; i++) {
                     decryptedFlags[order[i]] = true;
                 }
 
-                // Update DOM directly — no setState
                 for (let wIdx = 0; wIdx < words.length; wIdx++) {
                     const wordSpan = wordSpanRefs.current[wIdx];
                     const isDecrypted = decryptedFlags[wIdx];
@@ -100,7 +120,6 @@ const DecryptedText: React.FC<CustomSpanProps & {
                 if (progress < 1) {
                     animationRef.current = requestAnimationFrame(animate);
                 } else {
-                    // Final pass: ensure all words show original text
                     for (let wIdx = 0; wIdx < words.length; wIdx++) {
                         const wordSpan = wordSpanRefs.current[wIdx];
                         if (wordSpan) wordSpan.className = `word ${className}`;
@@ -111,18 +130,20 @@ const DecryptedText: React.FC<CustomSpanProps & {
                             if (span) span.textContent = charsByWord[wIdx][cIdx];
                         }
                     }
-                    // Switch to React-controlled final text so re-renders don't revert
                     setDone(true);
                 }
             };
 
-            animationRef.current = requestAnimationFrame(animate);
+            // Delay the start so the CSS transition (max-h, opacity) can open first
+            delayTimerRef.current = setTimeout(() => {
+                animationRef.current = requestAnimationFrame(animate);
+            }, delay);
+
             return () => {
-                if (animationRef.current) {
-                    cancelAnimationFrame(animationRef.current);
-                }
+                if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
+                if (animationRef.current) cancelAnimationFrame(animationRef.current);
             };
-        }, []);
+        }, [trigger]);
 
         return (
             <animated.span

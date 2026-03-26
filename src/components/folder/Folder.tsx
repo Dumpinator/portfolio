@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Badge from '../badge/Badge';
 import gsap from 'gsap';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import DecryptedText from '../animations/DecryptedText';
 
 type Project = {
   id: string | number;
@@ -25,6 +26,17 @@ type ProjectProps = {
 const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onClick }) => {
   const isMobile = useIsMobile();
   const projectRef = useRef<HTMLDivElement>(null);
+  
+  // Track activations to replay DecryptedText animation
+  const [activationKey, setActivationKey] = useState(0);
+  const wasActive = useRef(false);
+
+  useEffect(() => {
+    if (isActive && !wasActive.current) {
+      setActivationKey(k => k + 1);
+    }
+    wasActive.current = isActive;
+  }, [isActive]);
 
   // Animation GSAP initiale 
   useEffect(() => {
@@ -119,9 +131,15 @@ const ProjectItem: React.FC<ProjectProps> = ({ project, darkMode, isActive, onCl
           ${isActive ? 'max-h-32 opacity-100 mt-2' : 'max-h-0 opacity-0'}
         `}
       >
-        <p className="project-info !ml-1 text-sm mb-2">
-          {project.info}
-        </p>
+      <p>
+        <DecryptedText
+          text={project.info}
+          duration={2000}
+          delay={350}
+          trigger={activationKey}
+          direction="left-to-right"
+        />
+      </p>
       </div>
     </div>
   );
