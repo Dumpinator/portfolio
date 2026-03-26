@@ -23,7 +23,9 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
   hoverIntensity = 0.5,
   textAlign = "left",
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement & { cleanupFuzzyText?: () => void}>(null);
+  const canvasRef = useRef<
+    HTMLCanvasElement & { cleanupFuzzyText?: () => void }
+  >(null);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -41,7 +43,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
           animationFrameId = window.requestAnimationFrame(runFn);
         }
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(canvas);
 
@@ -108,19 +110,15 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
         xOffset = extraWidthBuffer;
       }
 
-
-
       offCtx.font = `${fontWeight} ${fontSizeStr} ${computedFontFamily}`;
       offCtx.textBaseline = "alphabetic";
       offCtx.fillStyle = color;
 
-      const textX = textAlign === "left" 
-        ? xOffset 
-        : xOffset - actualLeft;
+      const textX = textAlign === "left" ? xOffset : xOffset - actualLeft;
 
-        offCtx.fillText(text, textX, actualAscent);
+      offCtx.fillText(text, textX, actualAscent);
 
-        const horizontalMargin = textAlign === "left" ? 10 : 50;
+      const horizontalMargin = textAlign === "left" ? 10 : 50;
       const verticalMargin = 0;
       canvas.width = offscreenWidth + horizontalMargin * 2;
       canvas.height = tightHeight + verticalMargin * 2;
@@ -140,7 +138,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
           -fuzzRange,
           -fuzzRange,
           offscreenWidth + 2 * fuzzRange,
-          tightHeight + 2 * fuzzRange
+          tightHeight + 2 * fuzzRange,
         );
         const intensity = isHovering ? hoverIntensity : baseIntensity;
         for (let j = 0; j < tightHeight; j++) {
@@ -154,7 +152,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
             dx,
             j,
             offscreenWidth,
-            1
+            1,
           );
         }
         if (isVisible) {

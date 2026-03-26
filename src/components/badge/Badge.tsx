@@ -1,30 +1,26 @@
-import React from 'react';
+import React from "react";
 
 type BadgeProps = {
   children: React.ReactNode;
   className?: string;
   darkMode?: boolean;
   isActive?: boolean;
-}
+};
 
 const colorMap = {
   blue: {
-    bg: 'bg-blue-950/60',
-    text: 'text-blue-300/70',
-    border: 'before:border-blue-400/20 hover:before:border-blue-400/40',
+    bg: "bg-blue-950/60",
+    text: "text-blue-300/70",
+    border: "before:border-blue-400/20 hover:before:border-blue-400/40",
   },
   yellow: {
-    bg: 'bg-yellow-100/60',
-    text: 'text-yellow-600/70',
-    border: 'before:border-yellow-400/20 hover:before:border-yellow-400/40',
+    bg: "bg-yellow-100/60",
+    text: "text-yellow-600/70",
+    border: "before:border-yellow-400/20 hover:before:border-yellow-400/40",
   },
 } as const;
 
-const Badge: React.FC<BadgeProps> = ({
-  children,
-  darkMode = true,
-}) => {
-
+const Badge: React.FC<BadgeProps> = ({ children, darkMode = true }) => {
   const scheme = darkMode ? colorMap.blue : colorMap.yellow;
 
   return (
