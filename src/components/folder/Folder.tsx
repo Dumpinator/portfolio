@@ -15,7 +15,6 @@ type Project = {
 
 type ProjectProps = {
   project: Project;
-  darkMode?: boolean;
   isActive: boolean;
   onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
@@ -25,7 +24,6 @@ type ProjectProps = {
 
 const ProjectItem: React.FC<ProjectProps> = ({
   project,
-  darkMode,
   isActive,
   onClick,
 }) => {
@@ -129,17 +127,16 @@ const ProjectItem: React.FC<ProjectProps> = ({
         <ul className="flex flex-wrap gap-1 w-full">
           {project.stack.map((tag, index) => (
             <li key={index}>
-              <Badge darkMode={darkMode}>{tag}</Badge>
+              <Badge>{tag}</Badge>
             </li>
           ))}
         </ul>
       </div>
-      <div
-        className={`overflow-hidden transition-all duration-300 ease-out
-          ${isActive ? "max-h-32 opacity-100 mt-2" : "max-h-0 opacity-0"}
-        `}
-      >
-        <p>
+      <div className="mt-2 h-16">
+        <p
+          className="transition-opacity duration-300 ease-out"
+          style={{ opacity: isActive ? 1 : 0 }}
+        >
           <DecryptedText
             text={project.info}
             duration={2000}

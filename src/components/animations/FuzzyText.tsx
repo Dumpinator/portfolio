@@ -17,7 +17,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
   fontSize = "clamp(2rem, 8vw, 8rem)",
   fontWeight = 900,
   fontFamily = "inherit",
-  color = "#fff",
+  color,
   enableHover = true,
   baseIntensity = 0.18,
   hoverIntensity = 0.5,
@@ -34,6 +34,20 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
     let runFn: (() => void) | null = null;
     const canvas = canvasRef.current;
     if (!canvas) return;
+
+    // Resolve color: prop > CSS variable > fallback
+    let resolvedColor: string;
+    if (color && color.startsWith("var(")) {
+      // Extract --var-name from "var(--var-name)" and resolve via getComputedStyle
+      const varName = color.slice(4, -1).trim();
+      resolvedColor =
+        getComputedStyle(canvas).getPropertyValue(varName).trim() || "#fff";
+    } else {
+      resolvedColor =
+        color ||
+        getComputedStyle(canvas).getPropertyValue("--fuzzy-color").trim() ||
+        "#fff";
+    }
 
     // Pause rAF when canvas is off-screen
     const observer = new IntersectionObserver(
@@ -112,7 +126,7 @@ const FuzzyText: React.FC<FuzzyTextProps> = ({
 
       offCtx.font = `${fontWeight} ${fontSizeStr} ${computedFontFamily}`;
       offCtx.textBaseline = "alphabetic";
-      offCtx.fillStyle = color;
+      offCtx.fillStyle = resolvedColor;
 
       const textX = textAlign === "left" ? xOffset : xOffset - actualLeft;
 

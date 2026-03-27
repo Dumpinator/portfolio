@@ -1,0 +1,29 @@
+.badge-pill {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px;
+  padding: 0.1rem 0.6rem 2px;
+  font-size: 0.70rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.badge-pill::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  border: 2px solid var(--badge-border);
+  transition: border-color 0.3s;
+  pointer-events: none;
+}
+
+.badge-pill:hover::before {
+  border-color: var(--badge-border-hover);
+}

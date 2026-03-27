@@ -1,14 +1,7 @@
 import { gsap } from "gsap";
 import { useRef, useEffect } from "react";
 
-type ParticleBackgroundProps = {
-  darkMode?: boolean;
-  className?: string;
-};
-
-const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
-  darkMode,
-}) => {
+const ParticleBackground: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -101,10 +94,8 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
       {[...Array(100)].map((_, i) => (
         <div
           key={i}
-          className={`particle absolute mix-blend-screen pointer-events-none ${
-            darkMode ? "bg-blue-300" : "bg-yellow-950"
-          }`}
-          style={{ opacity: 0 }}
+          className="particle absolute mix-blend-screen pointer-events-none"
+          style={{ opacity: 0, backgroundColor: "var(--particle)" }}
         />
       ))}
     </div>

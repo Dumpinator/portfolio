@@ -13,19 +13,18 @@
 }
 
 body.dark-theme, .dark-theme {
-  background-color: oklch(0.24 0 0);
-  color: oklch(1 0 0 / 40%);
-}
-.light-theme .copyright {
-  color: oklch(0 0 0 / 60%);
+  background-color: var(--bg);
+  color: var(--text-muted);
 }
 
 body.light-theme, .light-theme {
-  background-color: oklch(0.985 0.001 106.423);
-  color: oklch(0 0 0 / 60%);
+  background-color: var(--bg);
+  color: var(--text-muted);
 }
-.dark-theme .copyright {
-  color: oklch(1 0 0 / 40%);
+
+.dark-theme .copyright,
+.light-theme .copyright {
+  color: var(--text-muted);
 }
 
 .project-item {
@@ -43,12 +42,8 @@ body.light-theme, .light-theme {
   margin-bottom: 0.5rem;
 }
 
-.dark-theme .project-date {
-  color: oklch(0.77 0 0);
-}
-
-.light-theme .project-date {
-  color: oklch(0 0 0 / 60%);
+.project-date {
+  color: var(--text-muted);
 }
 
 

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { Linkedin, Github, Mail } from 'lucide-react';
 
-interface SocialIconsProps {
-  darkMode: boolean;
-}
-
-const SocialIcons: React.FC<SocialIconsProps> = ({ darkMode }) => {
+const SocialIcons: React.FC = () => {
   const [emailCopied, setEmailCopied] = useState(false);
   const email = 'j.deboisvilliers@gmail.com';
 
@@ -16,10 +12,6 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ darkMode }) => {
     });
   };
 
-  const iconClass = `w-6 h-6 cursor-pointer ${darkMode 
-    ? 'text-white/80 hover:text-green-300' 
-    : 'text-black/50 hover:text-blue-500'} transition-colors duration-300`;
-
   return (
     <div className="flex justify-center space-x-4 mt-2">
       {/* LinkedIn */}
@@ -29,7 +21,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ darkMode }) => {
         rel="noopener noreferrer"
         className="hover:scale-110 transition-transform"
       >
-        <Linkedin className={iconClass} size={12} />
+        <Linkedin className="social-icon" size={12} />
       </a>
 
       {/* GitHub */}
@@ -39,7 +31,7 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ darkMode }) => {
         rel="noopener noreferrer"
         className="hover:scale-110 transition-transform"
       >
-        <Github className={iconClass} size={12} />
+        <Github className="social-icon" size={12} />
       </a>
 
       {/* Email */}
@@ -47,12 +39,11 @@ const SocialIcons: React.FC<SocialIconsProps> = ({ darkMode }) => {
         onClick={handleEmailCopy}
         className="hover:scale-110 transition-transform relative"
       >
-        <Mail className={iconClass} size={12} />
+        <Mail className="social-icon" size={12} />
         {emailCopied && (
             <span 
-            className={`absolute -top-8 left-1/2 -translate-x-1/2 
-            ${darkMode ? 'bg-green-600' : 'bg-blue-600'} 
-            text-white text-xs px-2 py-1 rounded`}
+            className="absolute -top-8 left-1/2 -translate-x-1/2 text-white text-xs px-2 py-1 rounded"
+            style={{ backgroundColor: "var(--copied-bg)" }}
           >
             Copié !
           </span>

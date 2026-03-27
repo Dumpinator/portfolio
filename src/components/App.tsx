@@ -59,20 +59,19 @@ function StatCounter({
   target,
   suffix,
   label,
-  darkMode,
   decryptDelay = 0,
 }: {
   target: number;
   suffix: string;
   label: string;
-  darkMode: boolean;
   decryptDelay?: number;
 }) {
   const { value, ref } = useCountUp(target, 1800);
   return (
     <div className="flex-1 text-center sm:text-left">
       <p
-        className={`text-4xl font-bold ${darkMode ? "text-green-300/80" : "text-blue-400/50"}`}
+        className="text-4xl font-bold"
+        style={{ color: "var(--accent-muted)" }}
       >
         <span ref={ref}>{value}</span>
         {suffix}
@@ -98,6 +97,8 @@ function App() {
   const focusIndicatorRef = useRef(null);
   const isMobile = useIsMobile();
   const initialScrollComplete = useRef(false);
+  const scrollLockRef = useRef(false);
+  const activeProjectIdRef = useRef<number | null>(null);
 
   const projects = [
     {
@@ -172,7 +173,7 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrollContainerRef.current) return;
+      if (!scrollContainerRef.current || scrollLockRef.current) return;
 
       const containerRect = scrollContainerRef.current?.getBoundingClientRect();
       if (!containerRect) return;
@@ -195,7 +196,15 @@ function App() {
         }
       });
 
-      setActiveProjectId(closestId);
+      if (closestId !== null && closestId !== activeProjectIdRef.current) {
+        activeProjectIdRef.current = closestId;
+        setActiveProjectId(closestId);
+        // Lock scroll detection while the info panel opens (300ms transition)
+        scrollLockRef.current = true;
+        setTimeout(() => {
+          scrollLockRef.current = false;
+        }, 400);
+      }
     };
 
     const scrollContainer = scrollContainerRef.current;
@@ -303,12 +312,13 @@ function App() {
       {/* Section gauche - Présentation */}
       <div className="w-full md:w-1/2 min-h-screen flex items-center justify-center overflow-hidden">
         <div className="flex flex-col w-full max-w-md px-4 sm:px-6 py-8 space-y-6">
-          {/* Section photo + texte avec responsive */}
-          <div className="flex flex-col items-center sm:flex-row sm:items-start mb-8">
+          {/* Section photo + nom + titre */}
+          <div className="flex flex-col items-center sm:flex-row sm:items-stretch mb-8">
             <div className="flex flex-col items-center sm:items-start mr-4">
               {/* Image de profil */}
               <div
-                className={`rounded-full overflow-hidden w-28 h-28 border-2 ${darkMode ? "border-green-300/80" : "border-blue-400/50"} shadow-lg flex-shrink-0 mb-4 sm:mb-0`}
+                className="rounded-full overflow-hidden w-28 h-28 border-2 shadow-lg flex-shrink-0 mb-4 sm:mb-0"
+                style={{ borderColor: "var(--img-border)" }}
               >
                 <img
                   src={profilImage}
@@ -321,42 +331,49 @@ function App() {
                 />
               </div>
               <div className="w-full flex items-center justify-center mt-2">
-                <SocialIcons darkMode={darkMode} />
+                <SocialIcons />
               </div>
             </div>
 
-            <div className="text-center sm:text-left">
-              <h1 className="text-3xl font-bold tracking-tighter mb-2 pl-2">
-                <SplitText
-                  text="JONATHAN DE BOISVILLIERS"
-                  delay={100}
-                  animationFrom={{
-                    opacity: 0,
-                    transform: "translate3d(0,50px,0)",
-                  }}
-                  animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
-                  easing={gsap.parseEase("easeOutCubic")}
-                  threshold={0.2}
-                  rootMargin="-50px"
-                  className={
-                    darkMode ? "text-green-300/80" : "text-blue-400/50"
-                  }
-                />
-              </h1>
-              <div className="flex flex-col items-center sm:items-start">
-                <FuzzyText
-                  baseIntensity={0.1}
-                  fontSize="2rem"
-                  color={darkMode ? "#fff" : "#aaa"}
-                >
-                  React / Node
+            <div className="flex flex-col items-center sm:items-start sm:justify-between text-center sm:text-left">
+              <div>
+                <h1 className="text-2xl font-bold tracking-tighter pl-2">
+                  <SplitText
+                    text="JONATHAN"
+                    delay={100}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                    easing={gsap.parseEase("easeOutCubic")}
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    className="text-accent"
+                  />
+                </h1>
+                <h1 className="text-2xl font-bold tracking-tighter pl-2">
+                  <SplitText
+                    text="DE BOISVILLIERS"
+                    delay={200}
+                    animationFrom={{
+                      opacity: 0,
+                      transform: "translate3d(0,50px,0)",
+                    }}
+                    animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                    easing={gsap.parseEase("easeOutCubic")}
+                    threshold={0.2}
+                    rootMargin="-50px"
+                    className="text-accent"
+                  />
+                </h1>
+              </div>
+              <div className="flex flex-col gap-1 items-center sm:items-start">
+                <FuzzyText baseIntensity={0.1} fontSize="2rem">
+                  JS · Fullstack
                 </FuzzyText>
-                <FuzzyText
-                  baseIntensity={0.1}
-                  fontSize="2rem"
-                  color={darkMode ? "#fff" : "#aaa"}
-                >
-                  Typescript Developer
+                <FuzzyText baseIntensity={0.1} fontSize="1.4rem" color="white">
+                  Node & React
                 </FuzzyText>
               </div>
             </div>
@@ -391,7 +408,8 @@ function App() {
             <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm opacity-75">
               <div>
                 <p
-                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                  className="text-xs font-semibold mb-1 tracking-widest uppercase"
+                  style={{ color: "var(--accent-muted)" }}
                 >
                   Frontend
                 </p>
@@ -405,13 +423,14 @@ function App() {
               </div>
               <div>
                 <p
-                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                  className="text-xs font-semibold mb-1 tracking-widest uppercase"
+                  style={{ color: "var(--accent-muted)" }}
                 >
                   Backend
                 </p>
                 <p>
                   <DecryptedText
-                    text="Node.js · Bun · REST APIs"
+                    text="Node.js · Bun.js · Hono · REST APIs"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -419,7 +438,8 @@ function App() {
               </div>
               <div>
                 <p
-                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                  className="text-xs font-semibold mb-1 tracking-widest uppercase"
+                  style={{ color: "var(--accent-muted)" }}
                 >
                   Databases
                 </p>
@@ -433,7 +453,8 @@ function App() {
               </div>
               <div>
                 <p
-                  className={`text-xs font-semibold mb-1 tracking-widest uppercase ${darkMode ? "text-green-300/80" : "text-blue-400/70"}`}
+                  className="text-xs font-semibold mb-1 tracking-widest uppercase"
+                  style={{ color: "var(--accent-muted)" }}
                 >
                   Infrastructure
                 </p>
@@ -454,21 +475,18 @@ function App() {
               target={5}
               suffix="+"
               label="Years of Experience"
-              darkMode={darkMode}
               decryptDelay={1500}
             />
             <StatCounter
               target={12}
               suffix="+"
               label="Completed Projects"
-              darkMode={darkMode}
               decryptDelay={1900}
             />
             <StatCounter
               target={10}
               suffix="k+"
-              label="Downed Coffees"
-              darkMode={darkMode}
+              label="Downed Hot Coffees"
               decryptDelay={2300}
             />
           </div>
@@ -484,7 +502,6 @@ function App() {
               <ProjectItem
                 key={project.id}
                 project={project}
-                darkMode={darkMode}
                 isActive={project.id === activeProjectId}
                 onClick={() => setActiveProjectId(Number(project.id))}
               />
@@ -493,16 +510,21 @@ function App() {
         ) : (
           // Sur desktop: Vue avec défilement
           <div className="w-full h-full flex flex-col relative">
-            <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-background to-transparent z-10 pointer-events-none"></div>
+            <div
+              className="absolute top-0 left-0 w-full h-16 z-10 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(to bottom, var(--bg), transparent)",
+              }}
+            ></div>
 
             {showFocusIndicator && (
               <div
                 ref={focusIndicatorRef}
-                className={`absolute left-1/2 top-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full 
-                ${darkMode ? "bg-blue-500/30" : "bg-yellow-500/30"} 
-                z-50 pointer-events-none animate-pulse`}
+                className="absolute left-1/2 top-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 rounded-full z-50 pointer-events-none animate-pulse"
                 style={{
-                  boxShadow: `0 0 20px 10px ${darkMode ? "rgba(59, 130, 246, 0.4)" : "rgba(234, 179, 8, 0.4)"}`,
+                  backgroundColor: "var(--focus-bg)",
+                  boxShadow: `0 0 20px 10px var(--focus-glow)`,
                 }}
               ></div>
             )}
@@ -521,7 +543,6 @@ function App() {
                 <ProjectItem
                   key={project.id}
                   project={project}
-                  darkMode={darkMode}
                   isActive={project.id === activeProjectId}
                   onClick={() => scrollToProject(Number(project.id))}
                 />
@@ -530,7 +551,12 @@ function App() {
               <div className="h-[30vh]"></div>
             </div>
 
-            <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none"></div>
+            <div
+              className="absolute bottom-0 left-0 w-full h-16 z-10 pointer-events-none"
+              style={{
+                background: "linear-gradient(to top, var(--bg), transparent)",
+              }}
+            ></div>
           </div>
         )}
       </div>
@@ -544,21 +570,20 @@ function App() {
 
       {/* Version améliorée avec effet de hover par lettre */}
       <div className="flex flex-col text-xs items-end fixed bottom-8 right-8 z-50 gap-6">
-        {/* Bouton DARK */}
+        {/* Bouton CYBER */}
         <div
           className={`flex flex-col items-center cursor-pointer ${darkMode ? "opacity-100" : "opacity-40"}`}
           onClick={() => setDarkMode(true)}
         >
-          {"DARK".split("").map((letter, index) => (
+          {"CYBER".split("").map((letter, index) => (
             <div
-              key={`dark-${index}`}
+              key={`cyber-${index}`}
               className="my-1 hover:scale-110 transition-transform"
             >
               <FuzzyText
                 baseIntensity={darkMode ? 0.15 : 0.1}
                 hoverIntensity={0.25}
                 fontSize="1rem"
-                color={darkMode ? "#fff" : "#aaa"}
                 enableHover={true}
               >
                 {letter}
@@ -567,22 +592,22 @@ function App() {
           ))}
         </div>
 
-        {/* Bouton LIGHT */}
+        {/* Bouton WINTER */}
         <div
           className={`flex flex-col items-center cursor-pointer ${!darkMode ? "opacity-100" : "opacity-40"}`}
           onClick={() => setDarkMode(false)}
         >
-          {"LIGHT".split("").map((letter, index) => (
+          {"WINTER".split("").map((letter, index) => (
             <div
-              key={`light-${index}`}
+              key={`winter-${index}`}
               className="my-1 hover:scale-110 transition-transform"
             >
               <FuzzyText
                 baseIntensity={!darkMode ? 0.15 : 0.1}
                 hoverIntensity={0.25}
                 fontSize="1rem"
-                color={!darkMode ? "#000" : "#aaa"}
                 enableHover={true}
+                color="var(--text)"
               >
                 {letter}
               </FuzzyText>
@@ -591,7 +616,7 @@ function App() {
         </div>
       </div>
       <Suspense fallback={<div className="fixed inset-0 z-0"></div>}>
-        <ParticleBackground darkMode={darkMode} />
+        <ParticleBackground />
       </Suspense>
     </div>
   );
