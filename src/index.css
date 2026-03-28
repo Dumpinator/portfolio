@@ -11,35 +11,34 @@
   --bg-surface: rgba(10, 20, 40, 0.6);
 
   /* Primary accent (green neon) */
-  --accent: #4ade80;
-  --accent-rgb: 74, 222, 128;
+  --accent: rgba(74, 222, 128, 1);
   --accent-muted: rgba(74, 222, 128, 0.7);
   --accent-dim: rgba(74, 222, 128, 0.4);
   --accent-glow: rgba(74, 222, 128, 0.25);
 
   /* Secondary accent (electric blue) */
-  --secondary: #60a5fa;
+  --secondary: #e8e8e8;
   --secondary-rgb: 96, 165, 250;
   --secondary-muted: rgba(96, 165, 250, 0.6);
   --secondary-dim: rgba(96, 165, 250, 0.3);
   --secondary-glow: rgba(96, 165, 250, 0.2);
 
   /* Text */
-  --text: rgba(255, 255, 255, 0.87);
-  --text-muted: rgba(255, 255, 255, 0.4);
+  --text: rgba(255, 255, 255, 0.9);
+  --text-muted: rgba(255, 255, 255, 0.6);
   --text-strong: #ffffff;
 
   /* Fuzzy / canvas text */
   --fuzzy-color: #ffffff;
 
   /* Badges */
-  --badge-bg: rgba(10, 30, 60, 0.6);
-  --badge-text: rgba(96, 165, 250, 0.7);
-  --badge-border: rgba(96, 165, 250, 0.25);
-  --badge-border-hover: rgba(96, 165, 250, 0.5);
+  --badge-bg: rgba(21, 22, 24, 0.8);
+  --badge-text: rgba(74, 222, 128, 1);
+  --badge-border: rgba(255, 255, 255, 0.8);
+  --badge-border-hover: rgba(255, 255, 255, 0.5);
 
   /* Particles */
-  --particle: #60a5fa;
+  --particle: rgba(74, 222, 128, 1);
 
   /* Focus indicator */
   --focus-bg: rgba(96, 165, 250, 0.3);
@@ -65,7 +64,6 @@
 
   /* Primary accent (neon chartreuse) */
   --accent: rgba(214, 242, 0, 0.9);
-  --accent-rgb: rgba(214, 242, 0, 0.9);
   --accent-muted: rgba(214, 242, 0, 0.9);
   --accent-dim: rgba(214, 242, 0, 0.4);
   --accent-glow: rgba(214, 242, 0, 0.18);
@@ -99,7 +97,7 @@
   --focus-glow: rgba(214, 242, 0, 0.3);
 
   /* Image border */
-  --img-border: rgba(255, 255, 255, 0.90);
+  --img-border: rgba(255, 255, 255, 0.9);
 
   /* Social icons */
   --icon: rgba(255, 255, 255, 0.65);
