@@ -89,7 +89,7 @@ function StatCounter({
 }
 
 function App() {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
   const [showFocusIndicator, setShowFocusIndicator] = useState(false);
 

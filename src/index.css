@@ -34,7 +34,7 @@
   /* Badges */
   --badge-bg: rgba(21, 22, 24, 0.8);
   --badge-text: rgba(74, 222, 128, 1);
-  --badge-border: rgba(255, 255, 255, 0.8);
+  --badge-border: rgba(74, 222, 128, 0.8);
   --badge-border-hover: rgba(255, 255, 255, 0.5);
 
   /* Particles */
@@ -45,7 +45,7 @@
   --focus-glow: rgba(59, 130, 246, 0.4);
 
   /* Image border */
-  --img-border: rgba(74, 222, 128, 0.65);
+  --img-border: rgba(74, 222, 128, 0.8);
 
   /* Social icons */
   --icon: rgba(255, 255, 255, 0.8);
@@ -81,7 +81,7 @@
   --text-strong: rgb(255, 255, 255);
 
   /* Fuzzy / canvas text */
-  --fuzzy-color: rgba(214, 242, 0, 0.9);
+  --fuzzy-color: #ffffff;
 
   /* Badges */
   --badge-bg: rgba(21, 22, 24, 0.8);
