@@ -375,7 +375,7 @@ function App() {
               </div>
               <div className="flex flex-col gap-1 items-center sm:items-start">
                 <FuzzyText baseIntensity={0.1} fontSize="2rem">
-                  JS · Fullstack
+                  Fullstack · JS
                 </FuzzyText>
                 <FuzzyText baseIntensity={0.1} fontSize="1.4rem" color="white">
                   Node & React
@@ -387,21 +387,21 @@ function App() {
           <div className="text-base mb-6 opacity-75 max-w-md mx-auto sm:mx-0 text-left space-y-3">
             <p>
               <DecryptedText
-                text="Full-stack developer working with React, Node.js and TypeScript."
+                text="Full-stack developer with 5+ years of experience, specialized in React, Node.js and TypeScript."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="I build SaaS products, APIs and modern interfaces with a focus on performance, clarity and maintainability."
+                text="At Capgemini, I worked on large-scale production systems for major clients — building robust architectures, scalable APIs and modern interfaces used by real users at scale."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="I enjoy keeping up with the ecosystem, whether that means working with Bun.js, refining database design, or improving deployment setups with Nginx."
+                text="I now help companies turn ideas into fast, reliable web applications — from database design and API architecture to frontend delivery and production deployment."
                 duration={2000}
                 direction="left-to-right"
               />
