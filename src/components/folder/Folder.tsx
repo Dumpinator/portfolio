@@ -11,6 +11,7 @@ type Project = {
   stack: string[];
   info: string;
   link?: string;
+  company?: string;
 };
 
 type ProjectProps = {
@@ -122,7 +123,14 @@ const ProjectItem: React.FC<ProjectProps> = ({
           </h2>
         ))}
       </div>
-      <p className="project-date !ml-1 text-sm">{project.date}</p>
+      <div className="flex items-center gap-2 !ml-1">
+        <p className="project-date text-sm">{project.date}</p>
+        {project.company && (
+          <span className="company-badge">
+            {project.company}
+          </span>
+        )}
+      </div>
       <div className="!ml-1 !mt-2 text-sm">
         <ul className="flex flex-wrap gap-1 w-full">
           {project.stack.map((tag, index) => (

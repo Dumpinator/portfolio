@@ -105,6 +105,7 @@ function App() {
       id: 1,
       title: ["Curcuma"],
       date: "Juil 2025 - Dec 2025",
+      company: "Startup",
       info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
       stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
       link: "https://beta.curcuma.ovh/",
@@ -113,6 +114,7 @@ function App() {
       id: 2,
       title: ["FASST"],
       date: "Oct 2024 - Mars 2025",
+      company: "Capgemini",
       info: "Sales path and Dashboard for AMUNDI distributors",
       stack: [
         "React",
@@ -129,6 +131,7 @@ function App() {
       id: 3,
       title: ["PATHFINDER"],
       date: "Jun - Nov 2024",
+      company: "BNP Paribas",
       info: "Graph Visualization Tool for BNP Paribas",
       stack: [
         "React",
@@ -145,6 +148,7 @@ function App() {
       id: 4,
       title: ["LOAD AO"],
       date: "Oct 2023 - Fev 2025",
+      company: "Sogeti",
       info: "Tool Managment for Sogeti",
       stack: [
         "React",
@@ -161,6 +165,7 @@ function App() {
       id: 5,
       title: ["ABLA"],
       date: " Mar 2023 - Dec 2024",
+      company: "Startup",
       info: "AI transcription for UX Repository",
       stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
       link: "",
