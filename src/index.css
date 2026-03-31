@@ -7,14 +7,14 @@
 /* ▸ CYBER (dark) — neon green + electric blue */
 .dark-theme {
   /* Backgrounds */
-  --bg: #0a0f1a;
-  --bg-surface: rgba(10, 20, 40, 0.6);
+  --bg: rgba(4, 7, 33, 1);
+  --bg-surface: rgba(4, 7, 33, 0.6);
 
   /* Primary accent (green neon) */
-  --accent: rgba(74, 222, 128, 1);
-  --accent-muted: rgba(74, 222, 128, 0.7);
-  --accent-dim: rgba(74, 222, 128, 0.4);
-  --accent-glow: rgba(74, 222, 128, 0.25);
+  --accent: rgba(110, 244, 70, 1);
+  --accent-muted: rgba(110, 244, 70, 0.8);
+  --accent-dim: rgba(110, 244, 70, 0.4);
+  --accent-glow: rgba(110, 244, 70, 0.25);
 
   /* Secondary accent (electric blue) */
   --secondary: #e8e8e8;
@@ -33,19 +33,19 @@
 
   /* Badges */
   --badge-bg: rgba(21, 22, 24, 0.8);
-  --badge-text: rgba(74, 222, 128, 1);
-  --badge-border: rgba(74, 222, 128, 0.8);
+  --badge-text: rgba(110, 244, 70, 1);
+  --badge-border: rgba(110, 244, 70, 0.8);
   --badge-border-hover: rgba(255, 255, 255, 0.5);
 
   /* Particles */
-  --particle: rgba(74, 222, 128, 1);
+  --particle: rgba(110, 244, 70, 1);
 
   /* Focus indicator */
   --focus-bg: rgba(96, 165, 250, 0.3);
   --focus-glow: rgba(59, 130, 246, 0.4);
 
   /* Image border */
-  --img-border: rgba(74, 222, 128, 0.8);
+  --img-border: rgba(110, 244, 70, 0.8);
 
   /* Social icons */
   --icon: rgba(255, 255, 255, 0.8);
