@@ -34,6 +34,12 @@ function App() {
       info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
       stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
       link: "https://beta.curcuma.ovh/",
+      highlights: [
+        "Designed and built the full product from scratch, solo",
+        "Built a REST API with Bun + Hono and a SQLite database",
+        "Deployed on a VPS with Nginx, SSL and automated backups",
+        "Implemented matching algorithm between candidates and job offers",
+      ],
     },
     {
       id: 2,
@@ -51,6 +57,12 @@ function App() {
         "GitLab",
       ],
       link: "https://fasst.io/",
+      highlights: [
+        "Lead frontend development for a major financial client (AMUNDI)",
+        "Built complex GraphQL data flows with Ramda for functional transformations",
+        "Focused on accessibility and performance optimizations with Radix-UI and custom hooks",
+        "Shipped in production with real beta users",
+      ],
     },
     {
       id: 3,
@@ -68,6 +80,12 @@ function App() {
         "GitLab",
       ],
       link: "",
+      highlights: [
+        "Built an interactive graph visualization tool used by BNP Paribas analysts",
+        "Integrated D3.js for dynamic force-directed graph rendering",
+        "Managed complex client-side state with Zustand",
+        "Migrated the project from CRA to Vite + React v19, added TypeScript and good development practices",
+      ],
     },
     {
       id: 4,
@@ -85,6 +103,13 @@ function App() {
         "AzureDevOps",
       ],
       link: "",
+      highlights: [
+        "Built an internal tool to automate tender document management",
+        "Developed a Node.js scraping pipeline with Puppeteer",
+        "Integrated TanStack Query for server state management",
+        "Reduced manual processing time by an estimated 60%",
+        "Deployed and maintained via Azure DevOps CI/CD pipeline",
+      ],
     },
     {
       id: 5,
@@ -94,6 +119,13 @@ function App() {
       info: "AI transcription for UX Repository",
       stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
       link: "",
+      highlights: [
+        "Built a UX research repository with AI-powered transcription",
+        "Implemented drag-and-drop interview organization with React-DnD",
+        "Created data visualization dashboards with Chart.js",
+        "Integrated a third-party AI transcription API and structured the output",
+        "Delivered as the sole frontend developer on the project",
+      ],
     },
   ];
 

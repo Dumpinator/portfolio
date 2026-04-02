@@ -3,6 +3,7 @@ import Badge from "../badge/Badge";
 import gsap from "gsap";
 import { useIsMobile } from "../../hooks/useIsMobile";
 import DecryptedText from "../animations/DecryptedText";
+import ProjectModal from "./ProjectModal";
 
 type Project = {
   id: string | number;
@@ -12,6 +13,9 @@ type Project = {
   info: string;
   link?: string;
   company?: string;
+  highlights?: string[];
+  image?: string;
+  details?: string;
 };
 
 type ProjectProps = {
@@ -30,14 +34,22 @@ const ProjectItem: React.FC<ProjectProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const projectRef = useRef<HTMLDivElement>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
-  // Track activations to replay DecryptedText animation
   const [activationKey, setActivationKey] = useState(0);
   const wasActive = useRef(false);
 
   useEffect(() => {
     if (isActive && !wasActive.current) {
       setActivationKey((k) => k + 1);
+    }
+    if (!isActive) {
+      setShowModal(false);
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
     }
     wasActive.current = isActive;
   }, [isActive]);
@@ -80,9 +92,18 @@ const ProjectItem: React.FC<ProjectProps> = ({
         ease: "power1.out",
       });
     }
+    if (isActive && project.highlights && project.highlights.length > 0) {
+      hoverTimerRef.current = setTimeout(() => {
+        setShowModal(true);
+      }, 600);
+    }
   };
 
   const handleMouseLeave = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
     if (projectRef.current && !isActive) {
       gsap.to(projectRef.current, {
         opacity: isMobile ? 0.5 : 0.15,
@@ -154,6 +175,19 @@ const ProjectItem: React.FC<ProjectProps> = ({
           />
         </p>
       </div>
+
+      {showModal && (
+        <ProjectModal
+          project={project}
+          onClose={() => {
+            setShowModal(false);
+            if (hoverTimerRef.current) {
+              clearTimeout(hoverTimerRef.current);
+              hoverTimerRef.current = null;
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
