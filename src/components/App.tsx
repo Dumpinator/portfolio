@@ -1,52 +1,10 @@
-import {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-
-function useCountUp(target: number, duration = 2000) {
-  const [value, setValue] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
-
-  const animate = useCallback(() => {
-    const start = performance.now();
-    const tick = (now: number) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-      setValue(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [target, duration]);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          animate();
-        }
-      },
-      { threshold: 0.5 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [animate]);
-
-  return { value, ref };
-}
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import ProjectItem from "./folder/Folder";
 import { gsap } from "gsap";
 import SplitText from "./animations/SplitText.tsx";
 import FuzzyText from "./animations/FuzzyText.tsx";
 import DecryptedText from "./animations/DecryptedText.tsx";
+import StatCounter from "./StatCounter.tsx";
 import profilImage from "/profil.jpg";
 import "./App.css";
 import SocialIcons from "./socialIcons/SocialIcons.tsx";
@@ -54,39 +12,6 @@ import { useIsMobile } from "../hooks/useIsMobile";
 const ParticleBackground = lazy(
   () => import("./particulesBackground/ParticleBackground.tsx"),
 );
-
-function StatCounter({
-  target,
-  suffix,
-  label,
-  decryptDelay = 0,
-}: {
-  target: number;
-  suffix: string;
-  label: string;
-  decryptDelay?: number;
-}) {
-  const { value, ref } = useCountUp(target, 1800);
-  return (
-    <div className="flex-1 text-center sm:text-left">
-      <p
-        className="text-4xl font-bold"
-        style={{ color: "var(--accent-muted)" }}
-      >
-        <span ref={ref}>{value}</span>
-        {suffix}
-      </p>
-      <p className="text-sm opacity-75">
-        <DecryptedText
-          text={label}
-          duration={1500}
-          delay={decryptDelay}
-          direction="left-to-right"
-        />
-      </p>
-    </div>
-  );
-}
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -204,7 +129,6 @@ function App() {
       if (closestId !== null && closestId !== activeProjectIdRef.current) {
         activeProjectIdRef.current = closestId;
         setActiveProjectId(closestId);
-        // Lock scroll detection while the info panel opens (300ms transition)
         scrollLockRef.current = true;
         setTimeout(() => {
           scrollLockRef.current = false;
@@ -215,7 +139,6 @@ function App() {
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);
-      // Force running the handleScroll immediately and after a short delay
       handleScroll();
       setTimeout(handleScroll, 500);
     }
@@ -228,22 +151,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (
-      !initialScrollComplete.current &&
-      scrollContainerRef.current &&
-      !isMobile
-    ) {
-      // Petit délai pour s'assurer que le DOM est complètement chargé
+    if (!initialScrollComplete.current && scrollContainerRef.current && !isMobile) {
       setTimeout(() => {
-        // Trouver l'élément FASST
-        const fasstProject = document.querySelector(
-          '.project-item[data-id="1"]',
-        );
+        const fasstProject = document.querySelector('.project-item[data-id="1"]');
 
         if (fasstProject) {
-          // Calcul de la position de défilement
-          const containerRect =
-            scrollContainerRef.current?.getBoundingClientRect();
+          const containerRect = scrollContainerRef.current?.getBoundingClientRect();
           if (!containerRect) return;
           const elementRect = fasstProject.getBoundingClientRect();
 
@@ -254,17 +167,13 @@ function App() {
             containerRect.height / 2 +
             elementRect.height / 2;
 
-          // Animation fluide avec GSAP
           gsap.to(scrollContainerRef.current, {
             scrollTop: scrollTop,
             duration: 1,
             ease: "power2.out",
             onComplete: () => {
-              // Marquer comme terminé pour ne pas répéter
               initialScrollComplete.current = true;
-              // Mettre à jour le projet actif
               setActiveProjectId(1);
-              // Afficher l'indicateur de focus
               setShowFocusIndicator(true);
               setTimeout(() => {
                 setShowFocusIndicator(false);
@@ -299,7 +208,6 @@ function App() {
         behavior: "smooth",
       });
 
-      // Force update activeProjectId après scroll
       setTimeout(() => {
         setActiveProjectId(id);
         setShowFocusIndicator(true);
@@ -314,13 +222,10 @@ function App() {
     <div
       className={`flex flex-col md:flex-row min-h-[100vh] w-full ${darkMode ? "dark-theme" : "light-theme"}`}
     >
-      {/* Section gauche - Présentation */}
       <div className="w-full md:w-1/2 min-h-screen flex items-center justify-center overflow-hidden">
         <div className="flex flex-col w-full max-w-md px-4 sm:px-6 py-8 space-y-6">
-          {/* Section photo + nom + titre */}
           <div className="flex flex-col items-center sm:flex-row sm:items-stretch mb-8">
             <div className="flex flex-col items-center sm:items-start mr-4">
-              {/* Image de profil */}
               <div
                 className="rounded-full overflow-hidden w-28 h-28 border-2 shadow-lg flex-shrink-0 mb-4 sm:mb-0"
                 style={{ borderColor: "var(--img-border)" }}
@@ -350,7 +255,10 @@ function App() {
                       opacity: 0,
                       transform: "translate3d(0,50px,0)",
                     }}
-                    animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
                     easing={gsap.parseEase("easeOutCubic")}
                     threshold={0.2}
                     rootMargin="-50px"
@@ -365,7 +273,10 @@ function App() {
                       opacity: 0,
                       transform: "translate3d(0,50px,0)",
                     }}
-                    animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                    animationTo={{
+                      opacity: 1,
+                      transform: "translate3d(0,0,0)",
+                    }}
                     easing={gsap.parseEase("easeOutCubic")}
                     threshold={0.2}
                     rootMargin="-50px"
@@ -408,7 +319,6 @@ function App() {
             </p>
           </div>
 
-          {/* Tech Stack */}
           <div className="mb-6 max-w-md mx-auto sm:mx-0">
             <div className="grid grid-cols-2 gap-x-8 gap-y-4 text-sm opacity-75">
               <div>
@@ -420,7 +330,7 @@ function App() {
                 </p>
                 <p>
                   <DecryptedText
-                    text="React · TypeScript · Tailwind"
+                    text="React · TypeScript · Tailwind · Radix-UI"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -435,7 +345,7 @@ function App() {
                 </p>
                 <p>
                   <DecryptedText
-                    text="Node.js · Bun.js · Hono · REST APIs"
+                    text="Node/Bun · Express/Hono · API Gateway"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -450,7 +360,7 @@ function App() {
                 </p>
                 <p>
                   <DecryptedText
-                    text="PostgreSQL · SQLite"
+                    text="PostgreSQL · SQLite · MongoDB · Redis"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -465,7 +375,7 @@ function App() {
                 </p>
                 <p>
                   <DecryptedText
-                    text="Nginx · Linux · Git / CI"
+                    text="Debian · Docker · Git · CI/CD · Nginx"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -474,33 +384,30 @@ function App() {
             </div>
           </div>
 
-          {/* Stats avec flex-wrap */}
-          <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-8 w-fit space-y-4 sm:space-y-8">
+          <div className="flex justify-between sm:justify-start sm:gap-12 w-full max-w-md mx-auto sm:mx-0">
             <StatCounter
               target={5}
               suffix="+"
-              label="Years of Experience"
+              label="Experience"
               decryptDelay={1500}
             />
             <StatCounter
               target={12}
               suffix="+"
-              label="Completed Projects"
+              label="Projects"
               decryptDelay={1900}
             />
             <StatCounter
-              target={10}
+              target={8}
               suffix="k+"
-              label="Downed Hot Coffees"
+              label="Hot Coffees"
               decryptDelay={2300}
             />
           </div>
         </div>
       </div>
 
-      {/* Section droite - Projets */}
       <div className="w-full md:w-1/2 h-screen relative">
-        {/* Sur mobile: Vue de tous les projets sans défilement, avec un simple padding */}
         {isMobile ? (
           <div className="w-full py-8 px-4 mt-8 flex flex-col gap-12">
             {projects.map((project) => (
@@ -513,7 +420,6 @@ function App() {
             ))}
           </div>
         ) : (
-          // Sur desktop: Vue avec défilement
           <div className="w-full h-full flex flex-col relative">
             <div
               className="absolute top-0 left-0 w-full h-16 z-10 pointer-events-none"
@@ -566,16 +472,13 @@ function App() {
         )}
       </div>
 
-      {/* Copyright flottant */}
       <div className="fixed bottom-8 left-8 text-xs opacity-60 z-20">
         © Jonathan
         <br />
         de BOISVILLIERS
       </div>
 
-      {/* Version améliorée avec effet de hover par lettre */}
       <div className="flex flex-col text-xs items-end fixed bottom-8 right-8 z-50 gap-6">
-        {/* Bouton CYBER */}
         <div
           className={`flex flex-col items-center cursor-pointer ${darkMode ? "opacity-100" : "opacity-40"}`}
           onClick={() => setDarkMode(true)}
@@ -597,7 +500,6 @@ function App() {
           ))}
         </div>
 
-        {/* Bouton WINTER */}
         <div
           className={`flex flex-col items-center cursor-pointer ${!darkMode ? "opacity-100" : "opacity-40"}`}
           onClick={() => setDarkMode(false)}
