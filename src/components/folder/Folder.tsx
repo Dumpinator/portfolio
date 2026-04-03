@@ -16,6 +16,7 @@ type Project = {
   highlights?: string[];
   image?: string;
   details?: string;
+  duration?: string;
 };
 
 type ProjectProps = {
@@ -34,7 +35,6 @@ const ProjectItem: React.FC<ProjectProps> = ({
 }) => {
   const isMobile = useIsMobile();
   const projectRef = useRef<HTMLDivElement>(null);
-  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showModal, setShowModal] = useState(false);
 
   const [activationKey, setActivationKey] = useState(0);
@@ -46,10 +46,6 @@ const ProjectItem: React.FC<ProjectProps> = ({
     }
     if (!isActive) {
       setShowModal(false);
-      if (hoverTimerRef.current) {
-        clearTimeout(hoverTimerRef.current);
-        hoverTimerRef.current = null;
-      }
     }
     wasActive.current = isActive;
   }, [isActive]);
@@ -92,18 +88,9 @@ const ProjectItem: React.FC<ProjectProps> = ({
         ease: "power1.out",
       });
     }
-    if (isActive && project.highlights && project.highlights.length > 0) {
-      hoverTimerRef.current = setTimeout(() => {
-        setShowModal(true);
-      }, 600);
-    }
   };
 
   const handleMouseLeave = () => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
-    }
     if (projectRef.current && !isActive) {
       gsap.to(projectRef.current, {
         opacity: isMobile ? 0.5 : 0.15,
@@ -127,8 +114,8 @@ const ProjectItem: React.FC<ProjectProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={(e) => {
-        if (isActive && project.link) {
-          window.open(project.link, "_blank", "noopener,noreferrer");
+        if (isActive) {
+          setShowModal(true);
         } else {
           onClick(e);
         }
@@ -181,10 +168,6 @@ const ProjectItem: React.FC<ProjectProps> = ({
           project={project}
           onClose={() => {
             setShowModal(false);
-            if (hoverTimerRef.current) {
-              clearTimeout(hoverTimerRef.current);
-              hoverTimerRef.current = null;
-            }
           }}
         />
       )}

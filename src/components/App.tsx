@@ -30,6 +30,7 @@ function App() {
       id: 1,
       title: ["Curcuma"],
       date: "Juil 2025 - Dec 2025",
+      duration: "6 mois",
       company: "Startup",
       info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
       stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
@@ -45,6 +46,7 @@ function App() {
       id: 2,
       title: ["FASST"],
       date: "Oct 2024 - Mars 2025",
+      duration: "6 mois",
       company: "Capgemini",
       info: "Sales path and Dashboard for AMUNDI distributors",
       stack: [
@@ -61,13 +63,14 @@ function App() {
         "Lead frontend development for a major financial client (AMUNDI)",
         "Built complex GraphQL data flows with Ramda for functional transformations",
         "Focused on accessibility and performance optimizations with Radix-UI and custom hooks",
-        "Shipped in production with real beta users",
+        "Building a sales path and dashboard used by distributors",
       ],
     },
     {
       id: 3,
       title: ["PATHFINDER"],
       date: "Jun - Nov 2024",
+      duration: "6 mois",
       company: "BNP Paribas",
       info: "Graph Visualization Tool for BNP Paribas",
       stack: [
@@ -91,6 +94,7 @@ function App() {
       id: 4,
       title: ["LOAD AO"],
       date: "Oct 2023 - Fev 2025",
+      duration: "1 an 5 mois",
       company: "Sogeti",
       info: "Tool Managment for Sogeti",
       stack: [
@@ -104,10 +108,9 @@ function App() {
       ],
       link: "",
       highlights: [
-        "Built an internal tool to automate tender document management",
+        "Built an internal tool to mesure and optimize the time spent by consultants on AO (Appel d'Offres) processes",
         "Developed a Node.js scraping pipeline with Puppeteer",
         "Integrated TanStack Query for server state management",
-        "Reduced manual processing time by an estimated 60%",
         "Deployed and maintained via Azure DevOps CI/CD pipeline",
       ],
     },
@@ -115,6 +118,7 @@ function App() {
       id: 5,
       title: ["ABLA"],
       date: " Mar 2023 - Dec 2024",
+      duration: "1 an 10 mois",
       company: "Startup",
       info: "AI transcription for UX Repository",
       stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
@@ -124,7 +128,7 @@ function App() {
         "Implemented drag-and-drop interview organization with React-DnD",
         "Created data visualization dashboards with Chart.js",
         "Integrated a third-party AI transcription API and structured the output",
-        "Delivered as the sole frontend developer on the project",
+        "Migrated the codebase to Vite and added TypeScript for better maintainability",
       ],
     },
   ];
@@ -183,12 +187,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!initialScrollComplete.current && scrollContainerRef.current && !isMobile) {
+    if (
+      !initialScrollComplete.current &&
+      scrollContainerRef.current &&
+      !isMobile
+    ) {
       setTimeout(() => {
-        const fasstProject = document.querySelector('.project-item[data-id="1"]');
+        const fasstProject = document.querySelector(
+          '.project-item[data-id="1"]',
+        );
 
         if (fasstProject) {
-          const containerRect = scrollContainerRef.current?.getBoundingClientRect();
+          const containerRect =
+            scrollContainerRef.current?.getBoundingClientRect();
           if (!containerRect) return;
           const elementRect = fasstProject.getBoundingClientRect();
 

@@ -181,9 +181,9 @@ body {
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow: hidden;
   background-color: var(--bg);
-  border: 1px solid var(--accent-dim);
+  border: 2px solid var(--badge-border);
   border-radius: 1rem;
   box-shadow: 0 0 40px var(--accent-glow);
   opacity: 0;
@@ -283,6 +283,12 @@ body {
 .modal-date {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+.modal-duration {
+  font-size: 0.7rem;
+  color: var(--accent-muted);
+  font-weight: 600;
 }
 
 .modal-description {

@@ -13,6 +13,7 @@ type Project = {
   highlights?: string[];
   image?: string;
   details?: string;
+  duration?: string;
 };
 
 type ProjectModalProps = {
@@ -84,6 +85,9 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
             <h2 className="modal-title">{project.title.join(" ")}</h2>
             <div className="modal-meta">
               <span className="modal-date">{project.date}</span>
+              {project.duration && (
+                <span className="modal-duration">{project.duration}</span>
+              )}
               {project.company && (
                 <span className="company-badge">{project.company}</span>
               )}
