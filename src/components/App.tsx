@@ -341,25 +341,65 @@ function App() {
           <div className="text-base mb-6 opacity-75 max-w-md mx-auto sm:mx-0 text-left space-y-3">
             <p>
               <DecryptedText
-                text="Full-stack developer with 5+ years of experience, specialized in React, Node.js and TypeScript."
+                text="Full-stack engineer and SaaS builder focused on turning ideas into production-ready web products."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="At Capgemini, I worked on large-scale production systems for major clients — building robust architectures, scalable APIs and modern interfaces used by real users at scale."
+                text="I specialize in designing and shipping end-to-end web applications using React, Node.js, and TypeScript — with a strong emphasis on architecture, scalability, and real-world usability."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="I now help companies turn ideas into fast, reliable web applications — from database design and API architecture to frontend delivery and production deployment."
+                text="Over the past 5+ years, I've worked on large-scale production systems in enterprise environments (including Capgemini and financial-sector clients), where reliability, performance, and system design are critical."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
+            <p>
+              <DecryptedText
+                text="Today, I partner with founders and teams to build fast, reliable SaaS products — from system architecture and backend design to frontend implementation and deployment."
+                duration={2000}
+                direction="left-to-right"
+              />
+            </p>
+            <div className="space-y-1 pt-1">
+              <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--accent-muted)" }}>
+                <DecryptedText text="Core focus" duration={1500} direction="left-to-right" />
+              </p>
+              <p>
+                <DecryptedText
+                  text="▹ SaaS & product architecture (multi-tenant systems, scalable backends)"
+                  duration={2000}
+                  direction="left-to-right"
+                />
+              </p>
+              <p>
+                <DecryptedText
+                  text="▹ API design and backend engineering (Node.js / TypeScript)"
+                  duration={2000}
+                  direction="left-to-right"
+                />
+              </p>
+              <p>
+                <DecryptedText
+                  text="▹ React-based frontend development"
+                  duration={2000}
+                  direction="left-to-right"
+                />
+              </p>
+              <p>
+                <DecryptedText
+                  text="▹ Shipping production systems end-to-end"
+                  duration={2000}
+                  direction="left-to-right"
+                />
+              </p>
+            </div>
           </div>
 
           <div className="mb-6 max-w-md mx-auto sm:mx-0">
