@@ -360,13 +360,13 @@ function App() {
                 direction="left-to-right"
               />
             </p>
-            <p>
+            {/* <p>
               <DecryptedText
                 text="Today, I partner with founders and teams to build fast, reliable SaaS products — from system architecture and backend design to frontend implementation and deployment."
                 duration={2000}
                 direction="left-to-right"
               />
-            </p>
+            </p> */}
             <div className="space-y-1 pt-1">
               <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--accent-muted)" }}>
                 <DecryptedText text="Core focus" duration={1500} direction="left-to-right" />
