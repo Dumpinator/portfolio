@@ -367,7 +367,7 @@ function App() {
                 direction="left-to-right"
               />
             </p> */}
-            <div className="space-y-1 pt-1">
+            {/* <div className="space-y-1 pt-1">
               <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--accent-muted)" }}>
                 <DecryptedText text="Core focus" duration={1500} direction="left-to-right" />
               </p>
@@ -399,7 +399,7 @@ function App() {
                   direction="left-to-right"
                 />
               </p>
-            </div>
+            </div> */}
           </div>
 
           <div className="mb-6 max-w-md mx-auto sm:mx-0">
