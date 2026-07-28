@@ -1,9 +1,32 @@
 import { gsap } from "gsap";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const ParticleBackground: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const [particleCount, setParticleCount] = useState(80);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const updateParticleCount = () => {
+      if (media.matches) {
+        setParticleCount(24);
+        return;
+      }
+
+      setParticleCount(window.innerWidth < 768 ? 40 : 80);
+    };
+
+    updateParticleCount();
+    media.addEventListener("change", updateParticleCount);
+    window.addEventListener("resize", updateParticleCount);
+
+    return () => {
+      media.removeEventListener("change", updateParticleCount);
+      window.removeEventListener("resize", updateParticleCount);
+    };
+  }, []);
 
   const initParticles = () => {
     if (!containerRef.current) return;
@@ -84,14 +107,14 @@ const ParticleBackground: React.FC = () => {
         timelineRef.current = null;
       }
     };
-  }, []);
+  }, [particleCount]);
 
   return (
     <div
       ref={containerRef}
       className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
     >
-      {[...Array(100)].map((_, i) => (
+      {[...Array(particleCount)].map((_, i) => (
         <div
           key={i}
           className="particle absolute mix-blend-screen pointer-events-none"

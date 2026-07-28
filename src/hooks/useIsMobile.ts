@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
-let listeners: Set<(v: boolean) => void> = new Set();
+const listeners: Set<() => void> = new Set();
 let currentValue =
   typeof window !== "undefined" ? window.innerWidth < MOBILE_BREAKPOINT : false;
 let listening = false;
@@ -15,7 +15,7 @@ function startListening() {
     const next = window.innerWidth < MOBILE_BREAKPOINT;
     if (next !== currentValue) {
       currentValue = next;
-      listeners.forEach((fn) => fn(next));
+      listeners.forEach((listener) => listener());
     }
   };
 
@@ -23,19 +23,16 @@ function startListening() {
 }
 
 export function useIsMobile(): boolean {
-  const [isMobile, setIsMobile] = useState(currentValue);
+  return useSyncExternalStore(
+    (listener) => {
+      listeners.add(listener);
+      startListening();
 
-  useEffect(() => {
-    listeners.add(setIsMobile);
-    startListening();
-
-    // Sync in case value changed before mount
-    setIsMobile(currentValue);
-
-    return () => {
-      listeners.delete(setIsMobile);
-    };
-  }, []);
-
-  return isMobile;
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+    () => currentValue,
+    () => false,
+  );
 }

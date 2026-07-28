@@ -90,10 +90,8 @@ const SplitText: React.FC<SplitTextProps> = ({
                         return (
                             <animated.span
                                 key={index}
-                                {...({
-                                    style: springs[index],
-                                    className: "inline-block transform transition-opacity will-change-transform"
-                                } as any)}
+                                style={springs[index]}
+                                className="inline-block transform transition-opacity will-change-transform"
                             >
                                 {letter}
                             </animated.span>

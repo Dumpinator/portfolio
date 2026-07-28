@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSpring, animated, SpringValue } from "@react-spring/web";
 
 type CustomSpanProps = React.ComponentProps<typeof animated.span> & {
@@ -30,7 +30,6 @@ const DecryptedText: React.FC<
   direction = "left-to-right",
 }) => {
   const words = text.split(" ");
-  const charsByWord = words.map((word) => word.split(""));
 
   // Refs for DOM manipulation instead of setState
   const wordSpanRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -40,7 +39,6 @@ const DecryptedText: React.FC<
   const animationRef = useRef<number | null>(null);
   const delayTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const startTimeRef = useRef<number | null>(null);
-  const [done, setDone] = useState(false);
 
   const props = useSpring({
     from: { opacity: 0 },
@@ -48,31 +46,41 @@ const DecryptedText: React.FC<
     config: { duration: 500 },
   });
 
-  const getRandomChar = useCallback(() => {
-    return characters.charAt(Math.floor(Math.random() * characters.length));
-  }, [characters]);
-
-  // Compute decryption order once
-  const wordDecryptionOrder = useRef<number[]>([]);
-  if (wordDecryptionOrder.current.length === 0) {
-    const indices = words.map((_, i) => i);
-    if (direction === "right-to-left") {
-      wordDecryptionOrder.current = indices.reverse();
-    } else if (direction === "random") {
-      wordDecryptionOrder.current = indices.sort(() => Math.random() - 0.5);
-    } else {
-      wordDecryptionOrder.current = indices;
-    }
-  }
-
   // Run animation — reacts to `trigger` changes
   useEffect(() => {
-    // Reset state
-    setDone(false);
     startTimeRef.current = null;
+    const currentWords = text.split(" ");
+    const charsByWord = currentWords.map((word) => word.split(""));
+    const shuffleSeed = `${text}:${trigger}:${characters.length}`;
+
+    const getRandomChar = () => {
+      return characters.charAt(Math.floor(Math.random() * characters.length));
+    };
+
+    const getSeededValue = (index: number) => {
+      let hash = 0;
+
+      for (let charIndex = 0; charIndex < shuffleSeed.length; charIndex += 1) {
+        hash = (hash * 31 + shuffleSeed.charCodeAt(charIndex) + index) >>> 0;
+      }
+
+      return hash;
+    };
+
+    const order = currentWords.map((_, index) => index);
+    if (direction === "right-to-left") {
+      order.reverse();
+    } else if (direction === "random") {
+      order.sort((a, b) => getSeededValue(a) - getSeededValue(b));
+    }
+
+    wordSpanRefs.current = currentWords.map((_, index) => wordSpanRefs.current[index] ?? null);
+    charSpanRefs.current = currentWords.map((word, wordIndex) =>
+      Array.from({ length: word.length }, (_, charIndex) => charSpanRefs.current[wordIndex]?.[charIndex] ?? null),
+    );
 
     // Reset all spans to random chars immediately
-    for (let wIdx = 0; wIdx < words.length; wIdx++) {
+    for (let wIdx = 0; wIdx < currentWords.length; wIdx++) {
       const wordSpan = wordSpanRefs.current[wIdx];
       if (wordSpan) wordSpan.className = "word";
       const charRefs = charSpanRefs.current[wIdx];
@@ -83,8 +91,7 @@ const DecryptedText: React.FC<
       }
     }
 
-    const decryptedFlags = Array(words.length).fill(false);
-    const order = wordDecryptionOrder.current;
+    const decryptedFlags = Array(currentWords.length).fill(false);
 
     const animate = (timestamp: number) => {
       if (startTimeRef.current === null) startTimeRef.current = timestamp;
@@ -98,7 +105,7 @@ const DecryptedText: React.FC<
         decryptedFlags[order[i]] = true;
       }
 
-      for (let wIdx = 0; wIdx < words.length; wIdx++) {
+      for (let wIdx = 0; wIdx < currentWords.length; wIdx++) {
         const wordSpan = wordSpanRefs.current[wIdx];
         const isDecrypted = decryptedFlags[wIdx];
 
@@ -122,7 +129,7 @@ const DecryptedText: React.FC<
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
       } else {
-        for (let wIdx = 0; wIdx < words.length; wIdx++) {
+        for (let wIdx = 0; wIdx < currentWords.length; wIdx++) {
           const wordSpan = wordSpanRefs.current[wIdx];
           if (wordSpan) wordSpan.className = `word ${className}`;
           const charRefs = charSpanRefs.current[wIdx];
@@ -132,7 +139,6 @@ const DecryptedText: React.FC<
             if (span) span.textContent = charsByWord[wIdx][cIdx];
           }
         }
-        setDone(true);
       }
     };
 
@@ -145,17 +151,15 @@ const DecryptedText: React.FC<
       if (delayTimerRef.current) clearTimeout(delayTimerRef.current);
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
-  }, [trigger]);
+  }, [characters, className, delay, direction, duration, text, trigger]);
 
   return (
     <animated.span
-      {...({
-        className: `decrypted-text-container ${parentClassName}`,
-        style: {
-          ...props,
-          whiteSpace: "normal",
-        },
-      } as any)}
+      className={`decrypted-text-container ${parentClassName}`}
+      style={{
+        ...props,
+        whiteSpace: "normal",
+      }}
     >
       {words.map((word, wordIndex) => (
         <React.Fragment key={wordIndex}>
@@ -163,7 +167,7 @@ const DecryptedText: React.FC<
             ref={(el) => {
               wordSpanRefs.current[wordIndex] = el;
             }}
-            className={`word ${done ? className : ""}`}
+            className="word"
             style={{
               display: "inline-block",
               fontFamily: "monospace",
@@ -184,7 +188,7 @@ const DecryptedText: React.FC<
                   display: "inline-block",
                 }}
               >
-                {done ? char : getRandomChar()}
+                {char}
               </span>
             ))}
           </span>

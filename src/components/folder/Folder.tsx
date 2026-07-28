@@ -39,13 +39,11 @@ const ProjectItem: React.FC<ProjectProps> = ({
 
   const [activationKey, setActivationKey] = useState(0);
   const wasActive = useRef(false);
+  const isModalOpen = showModal && isActive;
 
   useEffect(() => {
     if (isActive && !wasActive.current) {
       setActivationKey((k) => k + 1);
-    }
-    if (!isActive) {
-      setShowModal(false);
     }
     wasActive.current = isActive;
   }, [isActive]);
@@ -163,7 +161,7 @@ const ProjectItem: React.FC<ProjectProps> = ({
         </p>
       </div>
 
-      {showModal && (
+      {isModalOpen && (
         <ProjectModal
           project={project}
           onClose={() => {

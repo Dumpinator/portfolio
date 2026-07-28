@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "../../index.css";
 
@@ -33,12 +33,12 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
     return () => cancelAnimationFrame(timeout);
   }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (modalRef.current) {
       modalRef.current.classList.remove("modal-visible");
       setTimeout(onClose, 250);
     }
-  };
+  }, [onClose]);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -51,7 +51,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, []);
+  }, [handleClose]);
 
   return createPortal(
     <div className="modal-overlay" onClick={handleOverlayClick}>

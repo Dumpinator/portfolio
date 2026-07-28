@@ -13,6 +13,114 @@ const ParticleBackground = lazy(
   () => import("./particulesBackground/ParticleBackground.tsx"),
 );
 
+const projects = [
+  {
+    id: 1,
+    title: ["Curcuma"],
+    date: "Juil 2025 - Dec 2025",
+    duration: "6 mois",
+    company: "Startup",
+    info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
+    stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
+    link: "https://beta.curcuma.ovh/",
+    highlights: [
+      "Designed and built the full product from scratch, solo",
+      "Built a REST API with Bun + Hono and a SQLite database",
+      "Deployed on a VPS with Nginx, SSL and automated backups",
+      "Implemented matching algorithm between candidates and job offers",
+    ],
+  },
+  {
+    id: 2,
+    title: ["FASST"],
+    date: "Oct 2024 - Mars 2025",
+    duration: "6 mois",
+    company: "Capgemini",
+    info: "Sales path and Dashboard for AMUNDI distributors",
+    stack: [
+      "React",
+      "Node",
+      "GraphQL",
+      "Ramda",
+      "Tailwind",
+      "Radix-UI",
+      "GitLab",
+    ],
+    link: "https://fasst.io/",
+    highlights: [
+      "Lead frontend development for a major financial client (AMUNDI)",
+      "Built complex GraphQL data flows with Ramda for functional transformations",
+      "Focused on accessibility and performance optimizations with Radix-UI and custom hooks",
+      "Building a sales path and dashboard used by distributors",
+    ],
+  },
+  {
+    id: 3,
+    title: ["PATHFINDER"],
+    date: "Jun - Nov 2024",
+    duration: "6 mois",
+    company: "BNP Paribas",
+    info: "Graph Visualization Tool for BNP Paribas",
+    stack: [
+      "React",
+      "React Router",
+      "D3.JS",
+      "TypeScript",
+      "Vite",
+      "Zustand",
+      "GitLab",
+    ],
+    link: "",
+    highlights: [
+      "Built an interactive graph visualization tool used by BNP Paribas analysts",
+      "Integrated D3.js for dynamic force-directed graph rendering",
+      "Managed complex client-side state with Zustand",
+      "Migrated the project from CRA to Vite + React v19, added TypeScript and good development practices",
+    ],
+  },
+  {
+    id: 4,
+    title: ["LOAD AO"],
+    date: "Oct 2023 - Fev 2025",
+    duration: "1 an 5 mois",
+    company: "Sogeti",
+    info: "Tool Managment for Sogeti",
+    stack: [
+      "React",
+      "TypeScript",
+      "MUI",
+      "TanStack",
+      "Puppeteer",
+      "Node",
+      "AzureDevOps",
+    ],
+    link: "",
+    highlights: [
+      "Built an internal tool to mesure and optimize the time spent by consultants on AO (Appel d'Offres) processes",
+      "Developed a Node.js scraping pipeline with Puppeteer",
+      "Integrated TanStack Query for server state management",
+      "Deployed and maintained via Azure DevOps CI/CD pipeline",
+    ],
+  },
+  {
+    id: 5,
+    title: ["ABLA"],
+    date: " Mar 2023 - Dec 2024",
+    duration: "1 an 10 mois",
+    company: "Startup",
+    info: "AI transcription for UX Repository",
+    stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
+    link: "",
+    highlights: [
+      "Built a UX research repository with AI-powered transcription",
+      "Implemented drag-and-drop interview organization with React-DnD",
+      "Created data visualization dashboards with Chart.js",
+      "Integrated a third-party AI transcription API and structured the output",
+      "Migrated the codebase to Vite and added TypeScript for better maintainability",
+    ],
+  },
+];
+
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [activeProjectId, setActiveProjectId] = useState<number | null>(null);
@@ -24,121 +132,15 @@ function App() {
   const initialScrollComplete = useRef(false);
   const scrollLockRef = useRef(false);
   const activeProjectIdRef = useRef<number | null>(null);
-
-  const projects = [
-    {
-      id: 1,
-      title: ["Curcuma"],
-      date: "Juil 2025 - Dec 2025",
-      duration: "6 mois",
-      company: "Startup",
-      info: "Centralizes your talent, optimizes your matching, and accelerates your placements.",
-      stack: ["React", "TypeScript", "Bun", "SQLite", "Tailwind", "Nginx"],
-      link: "https://beta.curcuma.ovh/",
-      highlights: [
-        "Designed and built the full product from scratch, solo",
-        "Built a REST API with Bun + Hono and a SQLite database",
-        "Deployed on a VPS with Nginx, SSL and automated backups",
-        "Implemented matching algorithm between candidates and job offers",
-      ],
-    },
-    {
-      id: 2,
-      title: ["FASST"],
-      date: "Oct 2024 - Mars 2025",
-      duration: "6 mois",
-      company: "Capgemini",
-      info: "Sales path and Dashboard for AMUNDI distributors",
-      stack: [
-        "React",
-        "Node",
-        "GraphQL",
-        "Ramda",
-        "Tailwind",
-        "Radix-UI",
-        "GitLab",
-      ],
-      link: "https://fasst.io/",
-      highlights: [
-        "Lead frontend development for a major financial client (AMUNDI)",
-        "Built complex GraphQL data flows with Ramda for functional transformations",
-        "Focused on accessibility and performance optimizations with Radix-UI and custom hooks",
-        "Building a sales path and dashboard used by distributors",
-      ],
-    },
-    {
-      id: 3,
-      title: ["PATHFINDER"],
-      date: "Jun - Nov 2024",
-      duration: "6 mois",
-      company: "BNP Paribas",
-      info: "Graph Visualization Tool for BNP Paribas",
-      stack: [
-        "React",
-        "React Router",
-        "D3.JS",
-        "TypeScript",
-        "Vite",
-        "Zustand",
-        "GitLab",
-      ],
-      link: "",
-      highlights: [
-        "Built an interactive graph visualization tool used by BNP Paribas analysts",
-        "Integrated D3.js for dynamic force-directed graph rendering",
-        "Managed complex client-side state with Zustand",
-        "Migrated the project from CRA to Vite + React v19, added TypeScript and good development practices",
-      ],
-    },
-    {
-      id: 4,
-      title: ["LOAD AO"],
-      date: "Oct 2023 - Fev 2025",
-      duration: "1 an 5 mois",
-      company: "Sogeti",
-      info: "Tool Managment for Sogeti",
-      stack: [
-        "React",
-        "TypeScript",
-        "MUI",
-        "TanStack",
-        "Puppeteer",
-        "Node",
-        "AzureDevOps",
-      ],
-      link: "",
-      highlights: [
-        "Built an internal tool to mesure and optimize the time spent by consultants on AO (Appel d'Offres) processes",
-        "Developed a Node.js scraping pipeline with Puppeteer",
-        "Integrated TanStack Query for server state management",
-        "Deployed and maintained via Azure DevOps CI/CD pipeline",
-      ],
-    },
-    {
-      id: 5,
-      title: ["ABLA"],
-      date: " Mar 2023 - Dec 2024",
-      duration: "1 an 10 mois",
-      company: "Startup",
-      info: "AI transcription for UX Repository",
-      stack: ["React", "React-DnD", "Chart.JS", "Chakra-UI", "GitHub"],
-      link: "",
-      highlights: [
-        "Built a UX research repository with AI-powered transcription",
-        "Implemented drag-and-drop interview organization with React-DnD",
-        "Created data visualization dashboards with Chart.js",
-        "Integrated a third-party AI transcription API and structured the output",
-        "Migrated the codebase to Vite and added TypeScript for better maintainability",
-      ],
-    },
-  ];
+  const scrollFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
     document.body.className = darkMode ? "dark-theme" : "light-theme";
   }, [darkMode]);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateActiveProject = () => {
+      scrollFrameRef.current = null;
       if (!scrollContainerRef.current || scrollLockRef.current) return;
 
       const containerRect = scrollContainerRef.current?.getBoundingClientRect();
@@ -172,14 +174,24 @@ function App() {
       }
     };
 
+    const handleScroll = () => {
+      if (scrollFrameRef.current !== null) return;
+      scrollFrameRef.current = requestAnimationFrame(updateActiveProject);
+    };
+
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      handleScroll();
-      setTimeout(handleScroll, 500);
+      scrollContainer.addEventListener("scroll", handleScroll, {
+        passive: true,
+      });
+      updateActiveProject();
+      setTimeout(updateActiveProject, 500);
     }
 
     return () => {
+      if (scrollFrameRef.current !== null) {
+        cancelAnimationFrame(scrollFrameRef.current);
+      }
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", handleScroll);
       }
@@ -571,11 +583,11 @@ function App() {
               key={`cyber-${index}`}
               className="my-1 hover:scale-110 transition-transform"
             >
-              <FuzzyText
-                baseIntensity={darkMode ? 0.15 : 0.1}
-                hoverIntensity={0.25}
-                fontSize="1rem"
-                enableHover={true}
+                 <FuzzyText
+                   baseIntensity={0}
+                   hoverIntensity={0.25}
+                   fontSize="1rem"
+                   enableHover={true}
               >
                 {letter}
               </FuzzyText>
@@ -592,11 +604,11 @@ function App() {
               key={`winter-${index}`}
               className="my-1 hover:scale-110 transition-transform"
             >
-              <FuzzyText
-                baseIntensity={!darkMode ? 0.15 : 0.1}
-                hoverIntensity={0.25}
-                fontSize="1rem"
-                enableHover={true}
+                 <FuzzyText
+                   baseIntensity={0}
+                   hoverIntensity={0.25}
+                   fontSize="1rem"
+                   enableHover={true}
                 color="var(--text)"
               >
                 {letter}
