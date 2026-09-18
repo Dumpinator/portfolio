@@ -340,11 +340,11 @@ function App() {
                 </h1>
               </div>
               <div className="flex flex-col gap-1 items-center sm:items-start">
-                <FuzzyText baseIntensity={0.1} fontSize="2rem">
-                  Fullstack · JS
+                <FuzzyText baseIntensity={0.1} fontSize="1.8rem">
+                  FULLSTACK JS
                 </FuzzyText>
-                <FuzzyText baseIntensity={0.1} fontSize="1.4rem" color="white">
-                  Node & React
+                <FuzzyText baseIntensity={0.1} fontSize="1rem" color="white">
+                  NODE • REACT • AI-AUGMENTED
                 </FuzzyText>
               </div>
             </div>
@@ -353,32 +353,32 @@ function App() {
           <div className="text-base mb-6 opacity-75 max-w-md mx-auto sm:mx-0 text-left space-y-3">
             <p>
               <DecryptedText
-                text="Full-stack engineer and SaaS builder focused on turning ideas into production-ready web products."
+                text="Product-minded full-stack engineer and SaaS builder focused on turning ideas into production-ready products."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="I specialize in designing and shipping end-to-end web applications using React, Node.js, and TypeScript — with a strong emphasis on architecture, scalability, and real-world usability."
+                text="For 5+ years, I've been designing and shipping end-to-end web applications with React, Node.js and TypeScript — working across product, architecture, UX and performance."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
             <p>
               <DecryptedText
-                text="Over the past 5+ years, I've worked on large-scale production systems in enterprise environments (including Capgemini and financial-sector clients), where reliability, performance, and system design are critical."
+                text="Over the past year, AI has become part of my daily engineering workflow: exploring codebases, planning features, implementing, refactoring, testing and documenting."
                 duration={2000}
                 direction="left-to-right"
               />
             </p>
-            {/* <p>
+            <p>
               <DecryptedText
-                text="Today, I partner with founders and teams to build fast, reliable SaaS products — from system architecture and backend design to frontend implementation and deployment."
+                text="What interests me most isn't generating more code — it's learning how to build better software with AI while keeping technical ownership, quality and maintainability."
                 duration={2000}
                 direction="left-to-right"
               />
-            </p> */}
+            </p>
             {/* <div className="space-y-1 pt-1">
               <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--accent-muted)" }}>
                 <DecryptedText text="Core focus" duration={1500} direction="left-to-right" />
@@ -421,7 +421,7 @@ function App() {
                   className="text-xs font-semibold mb-1 tracking-widest uppercase"
                   style={{ color: "var(--accent-muted)" }}
                 >
-                  Frontend
+                  FRONTEND
                 </p>
                 <p>
                   <DecryptedText
@@ -436,11 +436,11 @@ function App() {
                   className="text-xs font-semibold mb-1 tracking-widest uppercase"
                   style={{ color: "var(--accent-muted)" }}
                 >
-                  Backend
+                  BACKEND
                 </p>
                 <p>
                   <DecryptedText
-                    text="Node/Bun · Express/Hono · API Gateway"
+                    text="Node.js · Express / Hono · REST · GraphQL"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -451,7 +451,7 @@ function App() {
                   className="text-xs font-semibold mb-1 tracking-widest uppercase"
                   style={{ color: "var(--accent-muted)" }}
                 >
-                  Databases
+                  DATABASES
                 </p>
                 <p>
                   <DecryptedText
@@ -466,11 +466,11 @@ function App() {
                   className="text-xs font-semibold mb-1 tracking-widest uppercase"
                   style={{ color: "var(--accent-muted)" }}
                 >
-                  Infrastructure
+                  AI-AUGMENTED
                 </p>
                 <p>
                   <DecryptedText
-                    text="Debian · Docker · Git · CI/CD · Nginx"
+                    text="Context Engineering · Agentic Workflows · Testing & review"
                     duration={2500}
                     direction="left-to-right"
                   />
@@ -479,7 +479,7 @@ function App() {
             </div>
           </div>
 
-          <div className="flex justify-between sm:justify-start sm:gap-12 w-full max-w-md mx-auto sm:mx-0">
+          <div className="flex w-full max-w-md gap-6 sm:gap-8 mx-auto sm:mx-0">
             <StatCounter
               target={5}
               suffix="+"
@@ -493,16 +493,16 @@ function App() {
               decryptDelay={1900}
             />
             <StatCounter
-              target={8}
-              suffix="k+"
-              label="Hot Coffees"
+              target={1}
+              suffix="+"
+              label="AI-Augmented"
               decryptDelay={2300}
             />
           </div>
         </div>
       </div>
 
-      <div className="w-full md:w-1/2 h-screen relative">
+      <div className="w-full md:w-1/2 relative md:h-screen">
         {isMobile ? (
           <div className="w-full py-8 px-4 mt-8 flex flex-col gap-12">
             {projects.map((project) => (
@@ -567,27 +567,46 @@ function App() {
         )}
       </div>
 
-      <div className="fixed bottom-8 left-8 text-xs opacity-60 z-20">
+      <div className="w-full shrink-0 px-4 pb-8 mt-8 text-xs opacity-60 z-20 md:fixed md:w-auto md:p-0 md:m-0 md:bottom-8 md:left-8">
         © Jonathan
         <br />
         de BOISVILLIERS
       </div>
 
-      <div className="flex flex-col text-xs items-end fixed bottom-8 right-8 z-50 gap-6">
+      <div
+        className="flex flex-col items-end fixed z-50
+                  right-1 bottom-3 gap-5
+                  scale-[0.70] origin-bottom-right
+                  opacity-80
+
+                  sm:right-2 sm:bottom-4 sm:gap-5 sm:scale-[0.82]
+
+                  md:right-8 md:bottom-8 md:gap-6 md:scale-100 md:opacity-100"
+      >
         <div
-          className={`flex flex-col items-center cursor-pointer ${darkMode ? "opacity-100" : "opacity-40"}`}
+          className={`flex flex-col items-center cursor-pointer ${darkMode ? "opacity-100" : "opacity-40"
+            }`}
           onClick={() => setDarkMode(true)}
         >
           {"CYBER".split("").map((letter, index) => (
             <div
               key={`cyber-${index}`}
-              className="my-1 hover:scale-110 transition-transform"
+              className="
+          w-5
+          flex
+          justify-center
+          items-center
+          my-[1px]
+          md:my-1
+          hover:scale-110
+          transition-transform
+        "
             >
-                 <FuzzyText
-                   baseIntensity={0}
-                   hoverIntensity={0.25}
-                   fontSize="1rem"
-                   enableHover={true}
+              <FuzzyText
+                baseIntensity={0}
+                hoverIntensity={0.25}
+                fontSize="1rem"
+                enableHover={true}
               >
                 {letter}
               </FuzzyText>
@@ -596,19 +615,29 @@ function App() {
         </div>
 
         <div
-          className={`flex flex-col items-center cursor-pointer ${!darkMode ? "opacity-100" : "opacity-40"}`}
+          className={`flex flex-col items-center cursor-pointer ${!darkMode ? "opacity-100" : "opacity-40"
+            }`}
           onClick={() => setDarkMode(false)}
         >
           {"WINTER".split("").map((letter, index) => (
             <div
               key={`winter-${index}`}
-              className="my-1 hover:scale-110 transition-transform"
+              className="
+          w-5
+          flex
+          justify-center
+          items-center
+          my-[1px]
+          md:my-1
+          hover:scale-110
+          transition-transform
+        "
             >
-                 <FuzzyText
-                   baseIntensity={0}
-                   hoverIntensity={0.25}
-                   fontSize="1rem"
-                   enableHover={true}
+              <FuzzyText
+                baseIntensity={0}
+                hoverIntensity={0.25}
+                fontSize="1rem"
+                enableHover={true}
                 color="var(--text)"
               >
                 {letter}
@@ -617,6 +646,7 @@ function App() {
           ))}
         </div>
       </div>
+
       <Suspense fallback={<div className="fixed inset-0 z-0"></div>}>
         <ParticleBackground />
       </Suspense>

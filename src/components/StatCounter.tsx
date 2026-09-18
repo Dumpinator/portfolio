@@ -47,7 +47,7 @@ type StatCounterProps = {
 function StatCounter({ target, suffix, label, decryptDelay = 0 }: StatCounterProps) {
   const { value, ref } = useCountUp(target, 1800);
   return (
-    <div className="text-center sm:text-left">
+    <div className="flex-1 basis-0 min-w-0 text-center sm:text-left">
       <p
         className="text-4xl font-bold"
         style={{ color: "var(--accent-muted)" }}
